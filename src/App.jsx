@@ -1,9 +1,7 @@
-import React from "react"
-
 function App(){
 
   return (
-    <div>
+    <div className="text-green-700">
       App
     </div>
   );
