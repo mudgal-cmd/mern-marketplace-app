@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import UserRouter from "./routes/user.route.js" //Since we're exporting default/1 feature only from user.router.js. We can directly change the name of the exported module here, rather than changing the name to UserRouter in the export statement in user.route.js. 
 
 dotenv.config(); //loading the env variables
 
@@ -12,6 +13,10 @@ const app = express();
 mongoose.connect(process.env.MONGO_URI)
   .then(()=> console.log("Connected to the DB")) //to check if the db connection is successful or not.
   .catch((err)=> console.log(err));
+
+
+app.use("/api/user", UserRouter); //ensuring all the routes/requests matching the path, go to the userRouter.
+
 
 app.listen(3000, ()=>{
   console.log("Server listening on port 3000...");
