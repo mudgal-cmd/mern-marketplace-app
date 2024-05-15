@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
   }
 }, {timestamps: true}); // to add the "createdAt" and "updatedAt" timestamps.
 
-
 const User = mongoose.model("User", userSchema); //mongodb will itself modify the "User" name when there are multiple users.
 
 export default User;
