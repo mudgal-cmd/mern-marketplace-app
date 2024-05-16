@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
-import bcryptjs from "bcryptjs";
+// import bcryptjs from "bcryptjs";
+import { hashPassword } from "../utils/helper.js";
 
 export const userSignUpController = async (req, res)=>{
 
@@ -7,7 +8,7 @@ export const userSignUpController = async (req, res)=>{
   
   const {username, password, email} = req.body;
 
-  const hashedPwd = bcryptjs.hashSync(password, 10); //salt rounds is 10
+  const hashedPwd = hashPassword(password  , 10); //salt rounds is 10
   
   const newUser = new User({username, password : hashedPwd, email});
   
