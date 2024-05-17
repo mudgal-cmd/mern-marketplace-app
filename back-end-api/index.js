@@ -13,7 +13,7 @@ dotenv.config(); //loading the env variables
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json()); // to serve and be able to process the data in the body.
 
 mongoose.connect(process.env.MONGO_URI)
   .then(()=> console.log("Connected to the DB")) //to check if the db connection is successful or not.
@@ -28,3 +28,18 @@ app.use("/api/auth", UserSignUpRouter);
 app.listen(3000, ()=>{
   console.log("Server listening on port 3000...");
 });
+
+//err - is the error in the input (in case the input is invalid) coming from this middleware, req - data from the client, res - server response, next - to go the next middleware 
+app.use((err, req, res, next) => {
+  
+  const statusCode = err.statusCode || 500;
+
+  const message = err.message || "Internal Server Error";
+
+  return res.status(statusCode).json({
+    success: false,
+    statusCode: statusCode, // after ES6, if the key and value is same, we can just keep 1
+    message // after ES6, if the key and value is same, we can just keep 1
+  });
+
+}); // this middleware function is to handle the errors in the input, so that we can skip putting try-catch everywhere in our code where input error pop up.

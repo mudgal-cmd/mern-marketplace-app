@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 // import bcryptjs from "bcryptjs";
 import { hashPassword } from "../utils/helper.js";
 
-export const userSignUpController = async (req, res)=>{
+export const userSignUpController = async (req, res, next)=>{
 
   // console.log(req.body);
   
@@ -20,7 +20,7 @@ export const userSignUpController = async (req, res)=>{
   }
 
   catch(err){
-    res.status(500).json(err.message);
+    next(err);
   }
 
 }
