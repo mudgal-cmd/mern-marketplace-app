@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import UserRouter from "./routes/user.route.js" //Since we're exporting default/1 feature only from user.router.js. We can directly change the name of the exported module here, rather than changing the name to UserRouter in the export statement in user.route.js. 
-import SignUpRouter from "./routes/user.signup.js";
 import UserSignUpRouter from "./routes/user.signup.js";
 
 

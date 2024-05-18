@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 // import bcryptjs from "bcryptjs";
 import { hashPassword } from "../utils/helper.js";
 
+import { errorHandler } from "../utils/error.js";
+
 export const userSignUpController = async (req, res, next)=>{
 
   // console.log(req.body);
@@ -20,7 +22,11 @@ export const userSignUpController = async (req, res, next)=>{
   }
 
   catch(err){
-    next(err);
+    next(err); // got to the next middleware
   }
+
+  // catch(err){
+  //   next(errorHandler(550, "Something happened. We're working on it")); // example of the usage of the custom error handler
+  // }
 
 }
