@@ -2,6 +2,8 @@ import {Link} from "react-router-dom";
 
 import { useState } from "react";
 
+import axios from "axios";
+
 function SignUp(){
 
   const [formData, setFormData] = useState({}); // used the "useState" hook for recording/managing the sign-up from data.
@@ -20,6 +22,7 @@ function SignUp(){
     e.preventDefault(); //to ensure page does not referesh on submitting the form.
     console.log(formData);
     console.log("Submitted");
+
     
 
   }
