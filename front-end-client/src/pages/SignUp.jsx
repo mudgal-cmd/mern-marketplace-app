@@ -18,11 +18,17 @@ function SignUp(){
       });
   }
   
-  const handleSignUpSubmit= (e) => {
+  const handleSignUpSubmit= async (e) => {
     e.preventDefault(); //to ensure page does not referesh on submitting the form.
     console.log(formData);
     console.log("Submitted");
 
+    const response = await axios.post("/api/auth/signup", JSON.stringify(formData), {
+      headers:{
+        "Content-type": "application/json"
+      }} )
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
     
 
   }
