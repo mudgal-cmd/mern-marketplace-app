@@ -5,15 +5,18 @@ import { useState } from "react";
 function SignUp(){
 
   const [formData, setFormData] = useState({}); // used the "useState" hook for recording/managing the sign-up from data.
-  const [previousFormData, setPreviousFormData] = useState({});
 
   const handleSignUpChange = (e) =>{
       setFormData({
-        ...formData, // spreading the formData object 
-        [e.target.id] : e.target.value
+        ...formData, // spreading the formData object to preserve the previous state.
+        [e.target.id] : e.target.value // updating just the required/modified/changed fields inside the formData. We're always recreating a new version of formData and discarding the previous one.
       });
   }
   console.log(formData);
+
+  const handleSignUpSubmit= (e) => {
+    
+  }
 
   return(
     <div className="p-3 max-w-lg mx-auto"> {/*mx-auto to bring the items in the center. max-w-lg to ensure the width of the field do not exceed the lg/large viewport*/}
@@ -24,7 +27,7 @@ function SignUp(){
         <input type="password" placeholder="Password" className="border p-3 rounded-lg" id="password" onChange={handleSignUpChange}/>
         <input type="email" placeholder="Email" className="border p-3 rounded-lg" id="email" onChange={handleSignUpChange}/>
 
-        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80">Sign up</button>
+        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80" onSubmit={handleSignUpSubmit}>Sign up</button>
 
       </form>
 
