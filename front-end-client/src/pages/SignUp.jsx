@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
@@ -8,28 +8,42 @@ function SignUp(){
 
   const [formData, setFormData] = useState({}); // used the "useState" hook for recording/managing the sign-up from data.
   // const [previousState, setPreviousState] = useState({}); // for troubleshooting the states
+  const [error, setError] = useState(null);
+  const[loadingEffect, setLoadingEffect] = useState(null); //state use to manage the loading effect of the sign up button
+
+  const navigate = useNavigate(); // to navigate the user to sign-in page in case of no errors.
 
   const handleSignUpChange = (e) =>{
-
+      setError(null);
       // setPreviousState(formData);
       setFormData({
         ...formData, // spreading the formData object to copy the data from the previous state obj to the new obj.
         [e.target.id] : e.target.value // updating just the required/modified/changed fields inside the formData. We're always recreating a new version of formData object.
-      });
+      }); 
   }
   
   const handleSignUpSubmit= async (e) => {
+    setLoadingEffect(true);
     e.preventDefault(); //to ensure page does not referesh on submitting the form.
-    console.log(formData);
+    // console.log(formData);
     console.log("Submitted");
-
-    const response = await axios.post("/api/auth/signup", JSON.stringify(formData), {
+  
+    await axios.post("/api/auth/signup", JSON.stringify(formData), {
       headers:{
         "Content-type": "application/json"
-      }} )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-    
+      }
+    })
+    .then(res => {
+      setLoadingEffect(false);
+      console.log(res);
+      navigate("/sign-in");
+    })
+    .catch(err => {
+      if(err.response.data.success === false)setError(err.response.data.message);
+      console.log(err.response.data);
+      setLoadingEffect(false);
+    });
+      
 
   }
 
@@ -42,7 +56,7 @@ function SignUp(){
         <input type="password" placeholder="Password" className="border p-3 rounded-lg" id="password" onChange={handleSignUpChange}/>
         <input type="email" placeholder="Email" className="border p-3 rounded-lg" id="email" onChange={handleSignUpChange}/>
 
-        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80">Sign up</button>
+        <button disabled={loadingEffect || error}className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80">{loadingEffect? "Loading..." : "Sign Up"}</button>
 
       </form>
 
@@ -52,7 +66,7 @@ function SignUp(){
           <span className="text-blue-700 hover:text-blue-500">Sign in</span>
         </Link>
       </div>
-
+      {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
   );
 }

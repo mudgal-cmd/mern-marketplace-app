@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
   return res.status(statusCode).json({
     success: false,
     statusCode: statusCode, // after ES6, if the key and value is same, we can just keep 1
-    message // after ES6, if the key and value is same, we can just keep 1
+    message // after ES6, if the key and value is same, we can just keep 1 - either the key or the value
   });
 
 }); // this middleware function is to handle the errors in the input, so that we can skip putting try-catch everywhere in our code where input error pop up.
