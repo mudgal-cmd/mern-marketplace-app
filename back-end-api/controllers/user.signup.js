@@ -30,3 +30,7 @@ export const userSignUpController = async (req, res, next)=>{
   // }
 
 }
+
+export default userSignInController = (req, res, next) => {
+  
+}
