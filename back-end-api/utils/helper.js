@@ -7,3 +7,11 @@ export const hashPassword = (password, salt) =>{
   return hashedPwd;
 
 }
+
+export const validatePassword = (inputPassword, hashedPassword) =>{
+
+  const passwordCompareResult = bcryptjs.compareSync(inputPassword, hashedPassword);
+
+  return passwordCompareResult;
+
+}

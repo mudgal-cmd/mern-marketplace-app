@@ -1,6 +1,5 @@
 import User from "../models/user.model.js";
-// import bcryptjs from "bcryptjs";
-import { hashPassword } from "../utils/helper.js";
+import { hashPassword, validatePassword } from "../utils/helper.js";
 
 // import { errorHandler } from "../utils/error.js";
 
@@ -31,6 +30,24 @@ export const userSignUpController = async (req, res, next)=>{
 
 }
 
-export default userSignInController = (req, res, next) => {
-  
+export const userSignInController = async (req, res, next) => {
+
+  const{username, password} = req.body;
+
+  const user = await User.findOne({username: username});
+
+  if(!user){
+    res.status(404).send("User not found. Please sign up.");
+  }
+
+  const isValidPassword = validatePassword(password, user.password);
+
+  if(isValidPassword){
+    res.status(200).json({success: true, user: user});
+  }
+  else{
+    res.status(404).send("Please signup before logging in...");
+  }
+  // next()
+
 }

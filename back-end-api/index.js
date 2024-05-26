@@ -23,10 +23,13 @@ app.use("/api/user", UserRouter); //ensuring all the routes/requests matching th
 
 app.use("/api/auth", UserSignUpRouter);
 
+app.use("/api/auth", UserSignUpRouter);
 
 app.listen(3000, ()=>{
   console.log("Server listening on port 3000...");
 });
+
+
 
 //err - is the error in the input (in case the input is invalid) coming from this middleware, req - data from the client, res - server response, next - to go the next middleware 
 app.use((err, req, res, next) => {
