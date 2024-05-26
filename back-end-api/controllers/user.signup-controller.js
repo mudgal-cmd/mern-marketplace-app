@@ -34,19 +34,26 @@ export const userSignInController = async (req, res, next) => {
 
   const{username, password} = req.body;
 
-  const user = await User.findOne({username: username});
+  try{
 
-  if(!user){
-    res.status(404).send("User not found. Please sign up.");
+    const user = await User.findOne({username: username});
+  
+    if(!user){
+      return res.status(404).send("User not found. Please sign up.");
+    }
+  
+    const isValidPassword = validatePassword(password, user.password);
+  
+    if(isValidPassword){
+      return res.status(200).json({success: true, user: user});
+    }
+    else{
+      return res.status(404).send("Please signup before logging in...");
+    }
   }
 
-  const isValidPassword = validatePassword(password, user.password);
-
-  if(isValidPassword){
-    res.status(200).json({success: true, user: user});
-  }
-  else{
-    res.status(404).send("Please signup before logging in...");
+  catch(err){
+    next(err);
   }
   // next()
 
