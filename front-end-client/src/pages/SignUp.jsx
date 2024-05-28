@@ -40,7 +40,7 @@ function SignUp(){
     })
     .catch(err => {
       if(err.response.data.success === false)setError(err.response.data.message);
-      console.log(err.response.data);
+      console.log(err);
       setLoadingEffect(false);
     });
       

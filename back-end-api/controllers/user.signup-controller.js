@@ -39,7 +39,7 @@ export const userSignInController = async (req, res, next) => {
     const user = await User.findOne({username: username});
   
     if(!user){
-      return res.status(404).send("User not found. Please sign up.");
+      throw new Error("User not found. Please sign up.");
     }
   
     const isValidPassword = validatePassword(password, user.password);
@@ -48,7 +48,7 @@ export const userSignInController = async (req, res, next) => {
       return res.status(200).json({success: true, user: user});
     }
     else{
-      return res.status(404).send("Please signup before logging in...");
+      throw new Error("Incorrect password. Please sign in with the correct credentials.");
     }
   }
 
