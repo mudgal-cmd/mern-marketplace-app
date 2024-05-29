@@ -5,13 +5,15 @@ import axios from "axios";
 function SignIn(){
 
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [loadingEffect, setLoadingEffect] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSignInChange = (e) => {
     // console.log(e.target.value);
+    setLoadingEffect(false);
+    setError(null);
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
@@ -48,7 +50,7 @@ function SignIn(){
       <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
         <input type="text" placeholder="Username" className="p-3 rounded-lg border" id="username" onChange={handleSignInChange}/>
         <input type="password" placeholder="Password" className="p-3 rounded-lg border" id="password" onChange={handleSignInChange}/>
-        <button className="bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition">{loadingEffect? "Loading...": "SIGN IN"}</button>
+        <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
       </form>
       <div className="mt-4 flex gap-2">
         <h1>Don't have an account yet?</h1>
