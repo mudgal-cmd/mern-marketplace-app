@@ -19,7 +19,7 @@ function SignIn(){
       [e.target.id]: e.target.value
     });
   }
-  console.log(formData);
+  // console.log(formData);
   const handleFormSubmit = async (e) =>{
     e.preventDefault();
     setLoadingEffect(true);
@@ -29,14 +29,14 @@ function SignIn(){
     .then(res => {
       setLoadingEffect(false);
       setError(null);
-      console.log(res);
+      // console.log(res);
       navigate("/about");
 
     })
     .catch(err => {
       setLoadingEffect(false);
       if(err) {setError(err.response.data.message)};
-      console.log(err);
+      // console.log(err);
     });
   }
 
@@ -48,7 +48,7 @@ function SignIn(){
       </h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
-        <input type="text" placeholder="Username" className="p-3 rounded-lg border" id="username" onChange={handleSignInChange}/>
+        <input type="email" placeholder="Email" className="p-3 rounded-lg border" id="email" onChange={handleSignInChange}/>
         <input type="password" placeholder="Password" className="p-3 rounded-lg border" id="password" onChange={handleSignInChange}/>
         <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
       </form>
