@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import { errorHandler } from "../utils/error.js";
 import { hashPassword, validatePassword } from "../utils/helper.js";
 
 // import { errorHandler } from "../utils/error.js";
@@ -32,14 +33,14 @@ export const userSignUpController = async (req, res, next)=>{
 
 export const userSignInController = async (req, res, next) => {
 
-  const{username, password} = req.body;
+  const{email, password} = req.body;
 
   try{
 
-    const user = await User.findOne({username: username});
+    const user = await User.findOne({email: email}); // or we can simply say User.findOne({email}) after ES6
   
     if(!user){
-      throw new Error("User not found. Please sign up.");
+      return next (errorHandler(404, "User not found. Please sign up before trying to sign in"));
     }
   
     const isValidPassword = validatePassword(password, user.password);
@@ -48,7 +49,7 @@ export const userSignInController = async (req, res, next) => {
       return res.status(200).json({success: true, user: user});
     }
     else{
-      throw new Error("Incorrect password. Please sign in with the correct credentials.");
+      return next(errorHandler(401, "Incorrect password. Please sign in with the correct credentials."));
     }
   }
 
