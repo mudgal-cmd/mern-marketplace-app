@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import { hashPassword, validatePassword } from "../utils/helper.js";
+import jwt from "jsonwebtoken"; 
 
 // import { errorHandler } from "../utils/error.js";
 
@@ -38,15 +39,18 @@ export const userSignInController = async (req, res, next) => {
   try{
 
     const user = await User.findOne({email: email}); // or we can simply say User.findOne({email}) after ES6
-  
+    //user is now the instance of mongoose document. This instance contains a property object "_doc" that contains our data.
     if(!user){
       return next (errorHandler(404, "User not found. Please sign up before trying to sign in"));
     }
   
     const isValidPassword = validatePassword(password, user.password);
+    const{password: pwd, ...userInfo} = user._doc; // we do not want to return the password even though its hashed to ensure security.
+    //_doc is the document object that wraps our raw mongo document containing all our data in the response.
   
     if(isValidPassword){
-      return res.status(200).json({success: true, user: user});
+      const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
+      res.cookie("access_token", token, {httpOnly: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).json(userInfo);
     }
     else{
       return next(errorHandler(401, "Incorrect password. Please sign in with the correct credentials."));
