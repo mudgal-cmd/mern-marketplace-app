@@ -49,8 +49,9 @@ export const userSignInController = async (req, res, next) => {
     //_doc is the document object that wraps our raw mongo document containing all our data in the response.
   
     if(isValidPassword){
-      const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
+      const token = jwt.sign({id : user._id}, process.env.JWT_SECRET); //Using JWT token for secure data transmission.
       res.cookie("access_token", token, {httpOnly: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).json(userInfo);
+      //'httpOnly' ensuring that the cookie cannot be accessed by any client-side scripts. 
     }
     else{
       return next(errorHandler(401, "Incorrect password. Please sign in with the correct credentials."));
