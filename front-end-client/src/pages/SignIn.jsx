@@ -1,19 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux"; // to dispatch the function
+import {signInStart, signInSuccess, signInFailure} from "../redux/user/userSlice.js"
 
 function SignIn(){
-
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loadingEffect, setLoadingEffect] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [loadingEffect, setLoadingEffect] = useState(false);
+
+  const {loading, error} = useSelector((state) => state.user);
 
   const navigate = useNavigate();
 
+  
+
   const handleSignInChange = (e) => {
     // console.log(e.target.value);
-    setLoadingEffect(false);
-    setError(null);
+    // setLoadingEffect(false);
+    // setError(null);
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
@@ -22,20 +28,25 @@ function SignIn(){
   // console.log(formData);
   const handleFormSubmit = async (e) =>{
     e.preventDefault();
-    setLoadingEffect(true);
+    // setLoadingEffect(true);
+    dispatch(signInStart());
     await axios.post("/api/auth/signin", JSON.stringify(formData), {headers:{
       "Content-type": "application/json"
     }})
     .then(res => {
-      setLoadingEffect(false);
-      setError(null);
+      // setLoadingEffect(false);
+      // setError(null);
+      dispatch((signInSuccess(res)));
       // console.log(res);
       navigate("/about");
 
     })
     .catch(err => {
-      setLoadingEffect(false);
-      if(err) {setError(err.response.data.message)};
+      // setLoadingEffect(false);
+      if(err) {
+        // setError(err.response.data.message);
+        dispatch(signInFailure(err.response.data.message));
+      };
       // console.log(err);
     });
   }
@@ -50,7 +61,7 @@ function SignIn(){
       <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
         <input type="email" placeholder="Email" className="p-3 rounded-lg border" id="email" onChange={handleSignInChange}/>
         <input type="password" placeholder="Password" className="p-3 rounded-lg border" id="password" onChange={handleSignInChange}/>
-        <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
+        <button disabled = {loading || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loading? "Loading...": "SIGN IN"}</button>
       </form>
       <div className="mt-4 flex gap-2">
         <h1>Don't have an account yet?</h1>
