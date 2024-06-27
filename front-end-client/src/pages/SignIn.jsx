@@ -10,11 +10,9 @@ function SignIn(){
   // const [error, setError] = useState(null);
   // const [loadingEffect, setLoadingEffect] = useState(false);
 
-  const {loading, error} = useSelector((state) => state.user);
+  const {loadingEffect, error, currentUser} = useSelector((state) => state.user);
 
   const navigate = useNavigate();
-
-  
 
   const handleSignInChange = (e) => {
     // console.log(e.target.value);
@@ -37,7 +35,7 @@ function SignIn(){
       // setLoadingEffect(false);
       // setError(null);
       dispatch((signInSuccess(res)));
-      // console.log(res);
+      console.log(res);
       navigate("/about");
 
     })
@@ -49,6 +47,8 @@ function SignIn(){
       };
       // console.log(err);
     });
+    console.log(currentUser);
+    console.log(error);
   }
 
   return(
@@ -61,7 +61,7 @@ function SignIn(){
       <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
         <input type="email" placeholder="Email" className="p-3 rounded-lg border" id="email" onChange={handleSignInChange}/>
         <input type="password" placeholder="Password" className="p-3 rounded-lg border" id="password" onChange={handleSignInChange}/>
-        <button disabled = {loading || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loading? "Loading...": "SIGN IN"}</button>
+        <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
       </form>
       <div className="mt-4 flex gap-2">
         <h1>Don't have an account yet?</h1>

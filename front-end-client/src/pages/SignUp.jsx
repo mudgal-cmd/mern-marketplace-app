@@ -4,6 +4,10 @@ import { useState } from "react";
 
 import axios from "axios";
 
+import { Provider } from "react-redux";
+
+import { useSelector } from "react-redux";
+
 function SignUp(){
 
   const [formData, setFormData] = useState({}); // used the "useState" hook for recording/managing the sign-up from data.
@@ -12,6 +16,8 @@ function SignUp(){
   const[loadingEffect, setLoadingEffect] = useState(null); //state use to manage the loading effect of the sign up button
 
   const navigate = useNavigate(); // to navigate the user to sign-in page in case of no errors.
+
+  const {currentUser} = useSelector((state) => state.user);
 
   const handleSignUpChange = (e) =>{
       setError(null);
@@ -43,7 +49,8 @@ function SignUp(){
       console.log(err);
       setLoadingEffect(false);
     });
-      
+    
+    console.log(currentUser);
 
   }
 

@@ -11,16 +11,16 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     signInStart: (state) => {
-      state.loading = true;
+      state.loadingEffect = true;
     },
     signInSuccess: (state, action) => { //action would be the data received from the db. Do something with it.
       state.currenUser = action.payload;
       state.error = null;
-      state.loading = false;
+      state.loadingEffect = false;
     },
     signInFailure: (state, action) => {
       state.error = action.payload;
-      state.loading = false;
+      state.loadingEffect = false;
     }
   }
 });
