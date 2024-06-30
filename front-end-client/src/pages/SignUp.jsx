@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import axios from "axios";
 
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 function SignUp(){
 

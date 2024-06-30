@@ -34,8 +34,8 @@ function SignIn(){
     .then(res => {
       // setLoadingEffect(false);
       // setError(null);
-      dispatch((signInSuccess(res)));
-      console.log(res);
+      dispatch((signInSuccess(res.data)));
+      console.log(res.data);
       navigate("/about");
 
     })
