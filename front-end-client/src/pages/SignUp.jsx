@@ -17,7 +17,7 @@ function SignUp(){
 
   const navigate = useNavigate(); // to navigate the user to sign-in page in case of no errors.
 
-  const {currentUser} = useSelector((state) => state.user);
+  // const {currentUser} = useSelector((state) => state.user);
 
   const handleSignUpChange = (e) =>{
       setError(null);
