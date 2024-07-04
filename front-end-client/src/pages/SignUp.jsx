@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import axios from "axios";
 
+import OAuth from "../components/OAuth";
+
 // import { Provider } from "react-redux";
 
 // import { useSelector } from "react-redux";
@@ -64,6 +66,8 @@ function SignUp(){
         <input type="email" placeholder="Email" className="border p-3 rounded-lg" id="email" onChange={handleSignUpChange}/>
 
         <button disabled={loadingEffect || error}className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80">{loadingEffect? "Loading..." : "Sign Up"}</button>
+
+        <OAuth/>
 
       </form>
 

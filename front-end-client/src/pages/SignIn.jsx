@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux"; // to dispatch the function
 import {signInStart, signInSuccess, signInFailure, signInChange} from "../redux/user/userSlice.js"
+import OAuth from "../components/OAuth.jsx";
 
 function SignIn(){
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ function SignIn(){
         <input type="email" placeholder="Email" className="p-3 rounded-lg border" id="email" onChange={handleSignInChange}/>
         <input type="password" placeholder="Password" className="p-3 rounded-lg border" id="password" onChange={handleSignInChange}/>
         <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
+        <OAuth/>
       </form>
       <div className="mt-4 flex gap-2">
         <h1>Don't have an account yet?</h1>
