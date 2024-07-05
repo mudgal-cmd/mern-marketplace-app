@@ -73,14 +73,14 @@ function SignIn(){
       </h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
-        <input type="email" placeholder="Email" className="p-3 rounded-lg border" id="email" onChange={handleSignInChange}/>
-        <input type="password" placeholder="Password" className="p-3 rounded-lg border" id="password" onChange={handleSignInChange}/>
+        <input type="email" placeholder="Email" className="p-3 rounded-lg border outline-slate-400" id="email" onChange={handleSignInChange}/>
+        <input type="password" placeholder="Password" className="p-3 rounded-lg border outline-slate-400" id="password" onChange={handleSignInChange}/>
         <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
         <OAuth/>
       </form>
       <div className="mt-4 flex gap-2">
         <h1>Don't have an account yet?</h1>
-        <Link to={"/sign-up"} className="text-blue-700 hover:text-blue-500 emp">Sign Up</Link>
+        <Link to={"/sign-up"} className="text-blue-700 hover:text-blue-500">Sign Up</Link>
       </div>
       {error? <p className="text-red-600 mt-3">{error}</p>:""}
     </div>

@@ -1,7 +1,9 @@
 function OAuth(){
 
   return (
-    <div>OAuth</div>
+    <button className="bg-red-700 text-white hover:bg-red-600 p-3 rounded-lg transition">
+      Sign in with Google
+    </button>
   )
 
 }
