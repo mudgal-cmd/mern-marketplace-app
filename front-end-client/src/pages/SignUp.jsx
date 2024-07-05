@@ -61,9 +61,9 @@ function SignUp(){
       <h1 className="text-center my-7 font-semibold text-3xl">Sign Up</h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleSignUpSubmit}> {/* gap for the spacing between them*/}
-        <input type="text" placeholder="Username" className="border p-3 rounded-lg" id="username" onChange={handleSignUpChange}/> {/*"id" attribute to know which input is changing so that we can manipulate it*/}
-        <input type="password" placeholder="Password" className="border p-3 rounded-lg" id="password" onChange={handleSignUpChange}/>
-        <input type="email" placeholder="Email" className="border p-3 rounded-lg" id="email" onChange={handleSignUpChange}/>
+        <input type="text" placeholder="Username" className="border p-3 rounded-lg outline-slate-400" id="username" onChange={handleSignUpChange}/> {/*"id" attribute to know which input is changing so that we can manipulate it*/}
+        <input type="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" id="password" onChange={handleSignUpChange}/>
+        <input type="email" placeholder="Email" className="border p-3 rounded-lg outline-slate-400" id="email" onChange={handleSignUpChange}/>
 
         <button disabled={loadingEffect || error}className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80">{loadingEffect? "Loading..." : "Sign Up"}</button>
 
