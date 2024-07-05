@@ -23,7 +23,7 @@ function SignIn(){
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
-    });
+    }); //created new object for the new state.
     console.log("printing loading effect and error");
     console.log(loadingEffect, error);
   }
