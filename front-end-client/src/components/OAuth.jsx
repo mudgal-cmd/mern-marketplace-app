@@ -1,8 +1,19 @@
+import {GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import {app} from "../firebase.js";
+
 function OAuth(){
 
-  const handleGoogleClick = () => {
+  const handleGoogleClick = async () => {
 
     try{
+
+      const provider = new GoogleAuthProvider();
+
+      const auth = getAuth(app);
+
+      const result = await signInWithPopup(auth, provider);
+
+      console.log(result);
 
     }
     catch(err) {

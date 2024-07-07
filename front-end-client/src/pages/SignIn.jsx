@@ -10,7 +10,7 @@ function SignIn(){
   const [formData, setFormData] = useState({});
   // const [error, setError] = useState(null);
   // const [loadingEffect, setLoadingEffect] = useState(false);
-
+  let errorFlag = false;
   const {loadingEffect, error, currentUser} = useSelector((state) => state.user);
 
   const navigate = useNavigate();
@@ -56,6 +56,7 @@ function SignIn(){
         // setError(err.response.data.message);
         console.log("I am in err of axios");
         dispatch(signInFailure(err.response.data.message));
+        errorFlag = true;
       // };
       if(!err.response.data.success){
         dispatch(signInFailure(err.response.data.message));
@@ -82,7 +83,7 @@ function SignIn(){
         <h1>Don't have an account yet?</h1>
         <Link to={"/sign-up"} className="text-blue-700 hover:text-blue-500">Sign Up</Link>
       </div>
-      {error? <p className="text-red-600 mt-3">{error}</p>:""}
+      {error && <p className="text-red-600 mt-3">{error}</p>}
     </div>
   );
 }
