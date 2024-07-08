@@ -15,6 +15,10 @@ function OAuth(){
 
       console.log(result);
 
+      const res = await fetch("/api/auth/google", {
+        
+      });
+
     }
     catch(err) {
       console.log(err);
