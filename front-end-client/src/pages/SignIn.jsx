@@ -6,14 +6,17 @@ import {signInStart, signInSuccess, signInFailure, signInChange} from "../redux/
 import OAuth from "../components/OAuth.jsx";
 
 function SignIn(){
+
+  // location.reload(true);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   // const [error, setError] = useState(null);
   // const [loadingEffect, setLoadingEffect] = useState(false);
-  let errorFlag = false;
   const {loadingEffect, error, currentUser} = useSelector((state) => state.user);
-
+  // let showErrorFlag;
+  // console.log(showErrorFlag);
   const navigate = useNavigate();
+
 
   const handleSignInChange = (e) => {
     // console.log(e.target.value);
@@ -31,7 +34,7 @@ function SignIn(){
   const handleFormSubmit = async (e) =>{
     e.preventDefault();
     // setLoadingEffect(true);
-
+   
     // fetch("https://fakestoreapi.com/products/1").then(res => res.json()).then(json => console.log(json));
 
     dispatch(signInStart());
@@ -54,16 +57,18 @@ function SignIn(){
       // setLoadingEffect(false);
       // if(err) {
         // setError(err.response.data.message);
-        console.log("I am in err of axios");
+        // console.log("I am in err of axios");
+        // showErrorFlag =true;
         dispatch(signInFailure(err.response.data.message));
-        errorFlag = true;
       // };
       if(!err.response.data.success){
         dispatch(signInFailure(err.response.data.message));
+        // showErrorFlag = true;
       }
-      console.log(error);
+      // console.log(showErrorFlag);
+      console.log(err);
     });
-    console.log(currentUser);
+    // console.log(currentUser);
   }
 
   return(
@@ -83,7 +88,7 @@ function SignIn(){
         <h1>Don't have an account yet?</h1>
         <Link to={"/sign-up"} className="text-blue-700 hover:text-blue-500">Sign Up</Link>
       </div>
-      {error && <p className="text-red-600 mt-3">{error}</p>}
+      {error? <p className="text-red-600 mt-3">{error}</p> : ""}
     </div>
   );
 }

@@ -15,9 +15,9 @@ function OAuth(){
 
       console.log(result);
 
-      const res = await fetch("/api/auth/google", {
+      // const res = await fetch("/api/auth/google", {
         
-      });
+      // });
 
     }
     catch(err) {
