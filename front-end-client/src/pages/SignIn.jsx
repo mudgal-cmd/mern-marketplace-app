@@ -17,7 +17,6 @@ function SignIn(){
   // console.log(showErrorFlag);
   const navigate = useNavigate();
 
-
   const handleSignInChange = (e) => {
     // console.log(e.target.value);
     dispatch(signInChange());
@@ -48,6 +47,9 @@ function SignIn(){
       //   dispatch(signInFailure(res));
       // }
       dispatch((signInSuccess(res.data)));
+
+      //"signInSuccess(res.data)" inside the dispatch function is the action.
+
       console.log(res.data);
       console.log(res);
       navigate("/about");
