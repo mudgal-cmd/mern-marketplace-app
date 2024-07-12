@@ -43,8 +43,9 @@ function Header() {
           </Link>
 
           <Link to={"/profile"}>{/* Advisable to wrap the elements inside the Link for the ease of SEO, styling, and adding event handlers*/}
-          {currentUser?<img src={currentUser.avatar} alt="profile-picture" className="h-7 rounded-full object-cover w-7"></img>
-            : 
+
+            {currentUser? <img src={currentUser.avatar} alt="profile-picture" className="h-7 w-7 object-cover rounded-full"></img>
+              :
             <li className="hover:font-bold transition-opacity duration-150 cursor-pointer">Sign in</li>}
           </Link>
         </ul>

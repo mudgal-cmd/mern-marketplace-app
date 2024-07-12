@@ -7,13 +7,11 @@ import OAuth from "../components/OAuth.jsx";
 
 function SignIn(){
 
-  // location.reload(true);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   // const [error, setError] = useState(null);
   // const [loadingEffect, setLoadingEffect] = useState(false);
   const {loadingEffect, error, currentUser} = useSelector((state) => state.user);
-  // let showErrorFlag;
   // console.log(showErrorFlag);
   const navigate = useNavigate();
 
@@ -47,11 +45,11 @@ function SignIn(){
 
       //"signInSuccess(res.data)" inside the dispatch function is the action.
 
-      // console.log("Printing res.data below");
-      // console.log(res.data);
-      // console.log("Printing res below");
+      // console.log(res.data); // just the data
+
       // console.log(res); // the entire axios response object
-      navigate("/about");
+
+      navigate("/"); //authenticated users should be navigated to the homepage
 
     })
     .catch(err => {
@@ -66,10 +64,8 @@ function SignIn(){
         dispatch(signInFailure(err.response.data.message));
         // showErrorFlag = true;
       }
-      // console.log(showErrorFlag);
       console.log(err);
     });
-    // console.log(currentUser);
   }
 
   return(
