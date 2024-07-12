@@ -1,7 +1,14 @@
 import { FaSearch } from "react-icons/fa"; //fa is for font awesome website.
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
+
 
 function Header() {
+
+  const {currentUser} = useSelector(state => state.user);
+
+  // console.log(currentUser);
+
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
@@ -35,8 +42,10 @@ function Header() {
           <li className="hidden sm:inline hover:font-bold transition-opacity duration-150 cursor-pointer">About</li>
           </Link>
 
-          <Link to={"/sign-in"}>{/* Advisable to wrap the elements inside the Link for the ease of SEO, styling, and adding event handlers*/}
-          <li className="hover:font-bold transition-opacity duration-150 cursor-pointer">Sign in</li>
+          <Link to={"/profile"}>{/* Advisable to wrap the elements inside the Link for the ease of SEO, styling, and adding event handlers*/}
+          {currentUser?<img src={currentUser.avatar} alt="profile-picture" className="h-7 rounded-full object-cover w-7"></img>
+            : 
+            <li className="hover:font-bold transition-opacity duration-150 cursor-pointer">Sign in</li>}
           </Link>
         </ul>
       </div>

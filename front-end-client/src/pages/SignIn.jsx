@@ -26,8 +26,8 @@ function SignIn(){
       ...formData,
       [e.target.id]: e.target.value
     }); //created new object for the new state.
-    console.log("printing loading effect and error");
-    console.log(loadingEffect, error);
+    // console.log("printing loading effect and error");
+    // console.log(loadingEffect, error);
   }
   // console.log(formData);
   const handleFormSubmit = async (e) =>{
@@ -43,17 +43,14 @@ function SignIn(){
     .then(res => {
       // setLoadingEffect(false);
       // setError(null);
-      // if(!res.data){
-      //   dispatch(signInFailure(res));
-      // }
       dispatch((signInSuccess(res.data)));
 
       //"signInSuccess(res.data)" inside the dispatch function is the action.
 
       // console.log("Printing res.data below");
-      console.log(res.data);
+      // console.log(res.data);
       // console.log("Printing res below");
-      console.log(res); // the entire axios response object
+      // console.log(res); // the entire axios response object
       navigate("/about");
 
     })

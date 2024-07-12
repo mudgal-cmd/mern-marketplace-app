@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currenUser: null,
+  currentUser: null,
   error: null,
   loadingEffect: false
 }
@@ -14,7 +14,7 @@ const userSlice = createSlice({
       state.loadingEffect = true;
     },
     signInSuccess: (state, action) => { //action would be the data received from the db. Do something with it.
-      state.currenUser = action.payload;
+      state.currentUser = action.payload;
       state.error = null;
       state.loadingEffect = false;
     },
