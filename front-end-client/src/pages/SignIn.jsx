@@ -80,8 +80,19 @@ function SignIn(){
       </h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
-        <input type="email" placeholder="Email" className="p-3 rounded-lg border outline-slate-400" id="email" onChange={handleSignInChange}/>
-        <input type="password" placeholder="Password" className="p-3 rounded-lg border outline-slate-400" id="password" onChange={handleSignInChange}/>
+        <div className="flex flex-col">
+
+          <label>Email</label>
+          <input type="email" placeholder="Ex. abc@gmail.com" className="p-3 rounded-lg border outline-slate-400" id="email" onChange=    {handleSignInChange}/>
+
+        </div>
+
+        <div className="flex flex-col">
+
+          <label>Password</label>
+          <input type="password" placeholder="****" className="p-3 rounded-lg border outline-slate-400" id="password" onChange={handleSignInChange}/>
+
+        </div>
         <button disabled = {loadingEffect || error} className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition" >{loadingEffect? "Loading...": "SIGN IN"}</button>
         <OAuth/>
       </form>
