@@ -64,3 +64,45 @@ export const userSignInController = async (req, res, next) => {
   // next()
 
 }
+
+export const oauthUserLoginController = async (req, res, next) => { //controller for users logging in via google oauth
+  
+  const {name, email, photoURL} = req.body;
+
+  const findUser = await User.findOne({email: email});
+
+  if(findUser){
+
+    const token = jwt.sign({id: findUser._id}, process.env.JWT_SECRET);
+
+    const {password, ...userInfo} = findUser._doc;
+
+    res.cookie("access_token", token, {httpOnly: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).send(userInfo);
+
+  }
+  else{
+    // return res.send("User not found. We'll need to sign them up");
+
+    const randomGeneratedPassword = Math.random().toString(36).slice(-8); //36 in toString attributes to 0-9 digits + A-Z alphabets, and we want the last 8 characters only. Ex: 0.892sha123hh312, because a random number generated from MAth.randon will start with a 0 + decimal.
+
+    // to create a random password with 16 digits - add another set of 8 random characters exactly like above.
+    //const randomGeneratedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+
+    const uniqueUsernameChars = Math.random().toFixed(10).toString(36).slice(-4); //adding random characters at the end of user's name to generate a unique username.
+
+    const saveUser = new User({email: email, password: randomGeneratedPassword, username:  name+uniqueUsernameChars, avatar: photoURL});
+
+    try{
+
+      await saveUser.save();
+
+      res.status(200).json({success: true, message:"User created successfully"});// we need to always send the data back in json only for the browser.
+
+    }
+    catch(err){
+      next(err);
+    }
+
+  }
+
+}

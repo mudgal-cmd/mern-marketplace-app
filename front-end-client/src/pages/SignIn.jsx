@@ -50,8 +50,10 @@ function SignIn(){
 
       //"signInSuccess(res.data)" inside the dispatch function is the action.
 
+      // console.log("Printing res.data below");
       console.log(res.data);
-      console.log(res);
+      // console.log("Printing res below");
+      console.log(res); // the entire axios response object
       navigate("/about");
 
     })

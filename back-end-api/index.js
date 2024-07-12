@@ -23,8 +23,6 @@ app.use("/api/user", UserRouter); //ensuring all the routes/requests matching th
 
 app.use("/api/auth", UserSignUpRouter);
 
-app.use("/api/auth", UserSignUpRouter);
-
 app.listen(3000, ()=>{
   console.log("Server listening on port 3000...");
 });
