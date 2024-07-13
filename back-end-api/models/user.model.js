@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import { generateAvatar } from "../utils/avatarGenerator.js";
+
+const avatar = generateAvatar();
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -17,7 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+    default: avatar
   }
 }, {timestamps: true}); // to add the "createdAt" and "updatedAt" timestamps.
 
