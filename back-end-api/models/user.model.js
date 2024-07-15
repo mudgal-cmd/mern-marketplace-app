@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: avatar
+    default: avatar // generating random avatar for the users without profile pictures
   }
 }, {timestamps: true}); // to add the "createdAt" and "updatedAt" timestamps.
 

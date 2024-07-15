@@ -1,3 +1,5 @@
+//generate random avatars for the users who do not have a profile picture.
+
 const avatars = [
   "https://t4.ftcdn.net/jpg/04/44/09/95/360_F_444099592_Ah2dYbsDIIuN7u9Uj9yR1ew19aBkJQYU.jpg", 
   "https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png", 
