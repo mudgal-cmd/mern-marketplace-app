@@ -11,7 +11,7 @@ function Profile(){
     <div>
       <h1 className="font-semibold text-3xl pt-8 text-center">Profile</h1>
       <form>
-
+        <img src={avatar} alt="profile-picture"></img>
       </form>
     </div>
   );
