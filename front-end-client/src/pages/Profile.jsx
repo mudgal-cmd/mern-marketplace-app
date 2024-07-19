@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 
 function Profile(){
 
   const {currentUser} = useSelector(state => state.user);
+
+  const [file, setFile] = useState(null);
 
   const fileRef = useRef(null); //using the "useRef" hook to provide reference of the image input to the profile picture so that
   //when a user clicks on the profile pic they're prompted to change the profile image
