@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
-import {useRef, useState} from "react";
+import { useRef, useState, useEffect } from "react";
+import { getStorage } from "firebase/storage";
+import { app } from "../firebase.js";
 
 function Profile(){
 
@@ -14,8 +16,31 @@ function Profile(){
 
   const getFile = (e) => {
     console.log(e.target.files[0]);
+    // console.log(e.target.files[0].name);
     setFile(e.target.files[0].name);
   } // function to get the name of the current profile picture.
+
+
+
+  useEffect(()=>{
+
+    if(file) 
+      {handleFileUpload();}
+
+  }, file);
+
+  const handleFileUpload =() => {
+
+    const storage = getStorage(app); // initialized the mern firebase app/project, for the firebase to identify that it's the same app.
+
+    const fileName = file.name;
+
+    console.log(storage);
+
+    console.log(fileName);
+  
+  }
+
 
   return(
     <div className="p-3 max-w-lg mx-auto">
