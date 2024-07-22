@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
-import { getStorage } from "firebase/storage";
+import { getStorage, uploadBytesResumable, ref } from "firebase/storage";
 import { app } from "../firebase.js";
 
 function Profile(){
@@ -17,23 +17,38 @@ function Profile(){
   const getFile = (e) => {
     console.log(e.target.files[0]);
     // console.log(e.target.files[0].name);
-    setFile(e.target.files[0].name);
+    setFile(e.target.files[0]);
+    console.log(file);
   } // function to get the name of the current profile picture.
-
 
 
   useEffect(()=>{
 
-    if(file) 
-      {handleFileUpload();}
+    if(file) {
+      handleFileUpload(file);
+    }
 
-  }, file);
+  }, [file]);
 
-  const handleFileUpload =() => {
+  const handleFileUpload =(file) => {
 
     const storage = getStorage(app); // initialized the mern firebase app/project, for the firebase to identify that it's the same app.
+    console.log(storage);
+    const fileName = new Date().getTime() + file.name; // to track each file modification and make a file name unique else error.
+    console.log(typeof fileName);
+    console.log(fileName);
+    const storageRef = ref(storage, fileName);
 
-    const fileName = file.name;
+
+    const uploadFileTask = uploadBytesResumable(storageRef, file);
+
+    uploadFileTask.on('state_changed', 
+      (snapshot) => {
+        const progress = Math.ceil((snapshot.bytesTransferred / snapshot.totalBytes)*100);
+
+        console.log("Upload is ",progress,"done");
+      }
+    )
 
     console.log(storage);
 
