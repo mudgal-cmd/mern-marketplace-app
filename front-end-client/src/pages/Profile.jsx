@@ -33,7 +33,7 @@ function Profile(){
     targetFile.type.startsWith("image")? setFile(targetFile): setFileUploadError("Incorrect image file format"); //allowing only image type files to upload/store in firebase
 
     // setFile(e.target.files[0]);
-    console.log(file);// will get undefined because state update happens async because the state hasn't processed yet and we're already printing it.
+    console.log(file);// will get "undefined" because state update happens async because the state hasn't processed yet and we're already printing it.
   } // function to get the name of the current profile picture.
 
 
