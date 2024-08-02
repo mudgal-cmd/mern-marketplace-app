@@ -6,7 +6,7 @@ export const defaultUserController = (req, res) =>{
 }
 
 export const updateUserController = (req, res, next) => {
-  // res.send("Updated user");
+  res.send("Updated user");
 
 }
 
