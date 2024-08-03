@@ -1,6 +1,5 @@
 import User from "../models/user.model.js"; //need to specify the file extension in case of node
 import { errorHandler } from "../utils/error.js";
-import {User} from "../models/user.model.js";
 import { hashPassword } from "../utils/helper.js";
 
 export const defaultUserController = (req, res) =>{
@@ -13,7 +12,7 @@ export const updateUserController = async (req, res, next) => {
 
   // console.log(id);
 
-  if(id !== req.params.id) next(errorHandler(401, "Unauthorized")); // if the _id in body and path params do not match, that means the user do not match, hence we'd throw the error and doesn't let the user proceed with the update.
+  if(id !== req.params.id) return next(errorHandler(401, "Unauthorized")); // if the _id in body and path params do not match, that means the user do not match, hence we'd throw the error and doesn't let the user proceed with the update.
 
   try{
     if(req.body.password) {
@@ -28,6 +27,14 @@ export const updateUserController = async (req, res, next) => {
         avatar: req.body.avatar
       }
     }, {new: true}); // using "new: true" will actually return the user after doing the update operation, otherwise it would have returned the previous user object without the updates
+
+    const {password, ...userData} = updatedUser._doc;
+
+    res.status(200).json({
+      "success": true,
+      "message": "User updated successfully",
+      "data": userData
+    });
 
   }
   catch(error){
