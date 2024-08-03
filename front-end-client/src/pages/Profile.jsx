@@ -44,21 +44,24 @@ function Profile(){
     }
 
   }, [file]);// we want to see the updated profile image, so useEffect will force a re-render everytime the value of file changes.
+
   console.log(file);
+
   const handleFileUpload =(file) => {
 
-    const storage = getStorage(app); // initialized the mern firebase app/project, for the firebase to identify that it's the same app.
+    const storage = getStorage(app); // initialized the mern firebase app/project, for the firebase to identify that it's the same app - optinal.
     // console.log(storage);
     const fileName = new Date().getTime() + file.name; // to track each file modification and make a file name unique else error.
     // console.log(typeof fileName);
     // console.log(fileName);
-    const storageRef = ref(storage, fileName);
+    const storageRef = ref(storage, fileName); //getting the reference of the firebase storage
 
     const uploadFileTask = uploadBytesResumable(storageRef, file);
 
-    uploadFileTask.on('state_changed', //'state_changed' will track the changes and give us the snapshot.
+    uploadFileTask.on('state_changed', //'state_changed' will track the changes and give us the snapshot. 3 observers / event handlers attached to the upload task.
     (snapshot) => { // tracking the changes of the image/versions uploaded
-        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100);
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100);// computed the file upload percentage progress
+
 
         // console.log("Upload is ",progress,"%done");
         setFileUploadPerc(progress);
@@ -75,11 +78,6 @@ function Profile(){
         } //downloadURL is the result of the getDownloadURL promise function getting resolved.
       );
     });
-    
-
-    // console.log(storage);
-
-    // console.log(fileName);
   
   }
 
@@ -100,12 +98,12 @@ function Profile(){
           fileUploadError? 
           <span className="text-red-700">
             {fileUploadError}
-          </span>
+          </span> //display the error in case of any error during file upload
           : 
-          fileUploadPerc>0 && fileUploadPerc<100? 
-          <span className="text-blue-700">{`Uploaded ${fileUploadPerc} %`}</span>
+          fileUploadPerc>0 && fileUploadPerc<100? //if not any error, further check the file upload perc
+          <span className="text-blue-700">{`Uploaded ${fileUploadPerc} %`}</span> // if fileUploadPerc is between 0 and 100, show it 
           : fileUploadPerc === 100?
-          <span className="text-green-700">Image Uploaded Successfully</span>
+          <span className="text-green-700">Image Uploaded Successfully</span> // display a text if the file uploaded completely
           :""
         }
       </p>
