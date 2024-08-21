@@ -10,7 +10,7 @@ export const updateUserController = async (req, res, next) => {
   
   const {id} = req.user;
 
-  // console.log(id);
+  console.log(req.params.id);
 
   if(id !== req.params.id) return next(errorHandler(401, "Unauthorized")); // if the _id in body and path params do not match, that means the user do not match, hence we'd throw the error and doesn't let the user proceed with the update.
 
@@ -20,7 +20,7 @@ export const updateUserController = async (req, res, next) => {
     }
 
     const updatedUser = await User.findByIdAndUpdate(id, {
-      $set: { // our body/payload could possibly contain some additional info, we would just work with whatever we need, nothing extra.
+      $set: { // our body/payload could possibly contain some additional info, we would just extract whatever we need, nothing extra.
         email: req.body.email,
         password: req.body.password,
         username: req.body.username,
@@ -41,10 +41,6 @@ export const updateUserController = async (req, res, next) => {
     next(error);
   }
 
-
-
 }
-
-
 
 // export default defaultUserController;

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase.js";
+import axios from "axios";
 
 function Profile(){
 
@@ -11,18 +12,14 @@ function Profile(){
 
   const [fileUploadPerc , setFileUploadPerc] = useState(0); // state to store the file upload progress percentage
 
-  const [updateFormData, setUpdateFormData] = useState({}); // state to manage the update profile form data
+  const [updateFormData, setUpdateFormData] = useState({id: currentUser._id, email: currentUser.email, username: currentUser.username, avatar: currentUser.avatar}); // state to manage the update profile form data
 
   const [fileUploadError, setFileUploadError] = useState(false);
 
   const fileRef = useRef(null); //using the "useRef" hook to provide reference of the image input to the profile picture so that
   //when a user clicks on the profile pic they're prompted to change the profile image
 
-  // console.log(currentUser);
-
-  console.log(updateFormData);
-  console.log(fileUploadPerc);
-  console.log(fileUploadError);
+  // console.log(updateFormData);
 
   const getFile = (e) => {
     // console.log(e.target.files[0]);
@@ -45,7 +42,7 @@ function Profile(){
 
   }, [file]);// we want to see the updated profile image, so useEffect will force a re-render everytime the value of file changes.
 
-  console.log(file);
+  // console.log(file);
 
   const handleFileUpload =(file) => {
 
@@ -73,7 +70,7 @@ function Profile(){
       getDownloadURL(uploadFileTask.snapshot.ref).then(
         (downloadURL)=> {
           setUpdateFormData({...updateFormData, avatar: downloadURL});
-          console.log(downloadURL);
+          // console.log(downloadURL);
 
         } //downloadURL is the result of the getDownloadURL promise function getting resolved.
       );
@@ -81,17 +78,30 @@ function Profile(){
   
   }
 
-  const handleFormData = (e)=>{
-    console.log(e);
-    // e.target.readOnly = true;
+  const handleFormDataChange = (e)=>{
+    // console.log(updateFormData);
+
+    setUpdateFormData({...updateFormData, [e.target.name]: e.target.value});
+
   }
 
+  const handleUpdateFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(updateFormData);
+
+    const response = await axios.put(`/api/user/updateUser/${updateFormData.id}`, JSON.stringify(updateFormData), {headers:{
+      "Content-Type" : "application/json"
+    }}); 
+
+    console.log(response);
+
+  }
 
   return(
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="font-semibold text-3xl my-8 text-center">Profile</h1>
       <input type="file" onChange={(e) => getFile(e)} ref={fileRef} accept="image/*" hidden/> {/*Image file input kept hidden and "accept*" property ensuring only image files are accepted */}
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4"  onSubmit={handleUpdateFormSubmit}>
       <img onClick={()=> fileRef.current.click()} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className="h-24 object-cover w-24 rounded-full self-center hover:cursor-pointer"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
       <p className="self-center text-sm">
         {
@@ -107,9 +117,9 @@ function Profile(){
           :""
         }
       </p>
-      <input type="text" id="username" value={currentUser.username} className="border p-3 rounded-lg outline-slate-400" onFocus={(e)=>handleFormData(e)}/>
-      <input type="text" id="email" value={currentUser.email} className="border p-3 rounded-lg outline-slate-400"/>
-      <input type="password" id="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400"/>
+      <input type="text" name="username" id="username" value={updateFormData.username} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/>
+      <input type="text" name="email" id="email" value={updateFormData.email} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/>
+      <input type="password" name="password" id="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/>
       <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition">Update Profile</button>
       </form>
 
