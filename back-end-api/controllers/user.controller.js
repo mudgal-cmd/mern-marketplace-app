@@ -8,6 +8,8 @@ export const defaultUserController = (req, res) =>{
 
 export const updateUserController = async (req, res, next) => {
   
+  
+
   const {id} = req.user;
 
   console.log(req.params.id);

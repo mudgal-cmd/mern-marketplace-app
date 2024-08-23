@@ -25,6 +25,18 @@ const userSlice = createSlice({
     signInChange: (state) => {
       state.loadingEffect = false;
       state.error = null;
+    },
+    updateUserStart : () => {
+      state.loadingEffect = true;
+    },
+    updateUserSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loadingEffect = false;
+      state.error = false
+    },
+    updateUserFailure : (state, action) => {
+      state.error = action.payload;
+      state.loadingEffect = false;
     }
   }
 });

@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase.js";
 import axios from "axios";
+import {updateUserStart, updateUserSuccess, updateUserFailure} from "../redux/user/userSlice.js";
 
 function Profile(){
 
@@ -19,13 +20,9 @@ function Profile(){
   const fileRef = useRef(null); //using the "useRef" hook to provide reference of the image input to the profile picture so that
   //when a user clicks on the profile pic they're prompted to change the profile image
 
-  // console.log(updateFormData);
-
   const getFile = (e) => {
-    // console.log(e.target.files[0]);
-    // console.log(e.target.files[0].name);
 
-    const targetFile = e.target.files[0];
+    const targetFile = e.target.files[0]; //get the uploaded file.
 
     targetFile.type.startsWith("image")? setFile(targetFile): setFileUploadError("Incorrect image file format"); //allowing only image type files to upload/store in firebase
 
