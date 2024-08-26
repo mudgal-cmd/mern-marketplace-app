@@ -32,11 +32,9 @@ export const updateUserController = async (req, res, next) => {
 
     const {password, ...userData} = updatedUser._doc;
 
-    res.status(200).json({
-      "success": true,
-      "message": "User updated successfully",
-      "data": userData
-    });
+    res.status(200).json(
+      userData
+    );
 
   }
   catch(error){
