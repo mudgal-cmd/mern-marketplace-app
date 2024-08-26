@@ -4,6 +4,7 @@ import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/
 import { app } from "../firebase.js";
 import axios from "axios";
 import {updateUserStart, updateUserSuccess, updateUserFailure} from "../redux/user/userSlice.js";
+import { cameraLogo } from "../assets/index.js";
 
 function Profile(){
 
@@ -21,6 +22,8 @@ function Profile(){
 
   // console.log(updateFormData);
   // console.log(currentUser);
+
+  const logoImageRef = useRef();
 
   const fileRef = useRef(null); //using the "useRef" hook to provide reference of the image input to the profile picture so that
   //when a user clicks on the profile pic they're prompted to change the profile image
@@ -92,7 +95,6 @@ function Profile(){
     e.preventDefault();
     dispatch(updateUserStart());// ?? why is it showing the query params in the URL - reason being  "specified before disabling the default form submit behavior."
     console.log(updateFormData);
-
     await axios.put(`/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
       "Content-Type" : "application/json"
     }}).then(res => {
@@ -112,7 +114,10 @@ function Profile(){
       <h1 className="font-semibold text-3xl my-8 text-center">Profile</h1>
       <input type="file" onChange={(e) => getFile(e)} ref={fileRef} accept="image/*" hidden/> {/*Image file input kept hidden and "accept*" property ensuring only image files are accepted */}
       <form className="flex flex-col gap-4"  onSubmit={handleUpdateFormSubmit}>
-        <img onClick={()=> fileRef.current.click()} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className="h-24 object-cover w-24 rounded-full self-center hover:cursor-pointer"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
+        <div className="self-center w-24 h-24 flex justify-center items-center group">
+          <img onClick={()=> fileRef.current.click()} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className=" object-cover h-24 w-24 rounded-full self-center hover:opacity-40"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
+          <img src={cameraLogo} className="absolute  opacity-0 transition-opacity w-12 h-12 duration-300 hover:cursor-pointer group-hover:opacity-50"/>
+        </div>
         <p className="self-center text-sm">
           {
             fileUploadError? 
