@@ -4,7 +4,8 @@ import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/
 import { app } from "../firebase.js";
 import axios from "axios";
 import {updateUserStart, updateUserSuccess, updateUserFailure,
-  deleteUserSuccess, deleteUserFailure
+  deleteUserStart, deleteUserSuccess, deleteUserFailure,
+  signOutStart, signOutSuccess, signOutFailure
 } from "../redux/user/userSlice.js";
 import { cameraLogo } from "../assets/index.js";
 
@@ -21,11 +22,6 @@ function Profile(){
   const [updateFormData, setUpdateFormData] = useState({}); // state to manage the update profile form data
 
   const [fileUploadError, setFileUploadError] = useState(false);
-
-  // console.log(updateFormData);
-  // console.log(currentUser);
-
-  const logoImageRef = useRef();
 
   const fileRef = useRef(null); //using the "useRef" hook to provide reference of the image input to the profile picture so that
   //when a user clicks on the profile pic they're prompted to change the profile image
@@ -116,6 +112,7 @@ function Profile(){
 
   const handleDeleteUser = async() => {
 
+    dispatch(deleteUserStart());
     // dispatch(delete)
     await axios.delete(`/api/user/deleteUser/${currentUser._id}`).
     
@@ -126,10 +123,26 @@ function Profile(){
     }).
     catch(error => {
       console.log(error);
-      dispatch(deleteUserFailure(error));
+      dispatch(deleteUserFailure(error.response.data.message));
     })
 
 
+  }
+
+  const handleUserSignOut = () => {
+    dispatch(signOutStart());
+  
+      axios.post(`/api/auth/signout/${currentUser._id}`).
+      then(res => {
+        console.log(res);
+        if(res.data.success === false) return error(res);
+        dispatch(signOutSuccess());
+      })
+      .catch(error => {
+        dispatch(signOutFailure(error.response.data.message));
+      });
+
+    
   }
 
 
@@ -167,9 +180,9 @@ function Profile(){
 
       <div className="flex justify-between mt-5">
         <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition" onClick={handleDeleteUser}>Delete Account</span>
-        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition">Sign Out</span>
+        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition" onClick={handleUserSignOut}>Sign Out</span>
       </div>
-
+      {error? <p className="text-red-600 mt-3">{error}</p> : ""}
     </div>
   );
 
