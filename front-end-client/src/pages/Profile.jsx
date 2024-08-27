@@ -3,7 +3,9 @@ import { useRef, useState, useEffect } from "react";
 import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase.js";
 import axios from "axios";
-import {updateUserStart, updateUserSuccess, updateUserFailure} from "../redux/user/userSlice.js";
+import {updateUserStart, updateUserSuccess, updateUserFailure,
+  deleteUserSuccess, deleteUserFailure
+} from "../redux/user/userSlice.js";
 import { cameraLogo } from "../assets/index.js";
 
 function Profile(){
@@ -113,9 +115,21 @@ function Profile(){
 
   }
 
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async() => {
 
     // dispatch(delete)
+    await axios.delete(`/api/user/deleteUser/${currentUser._id}`).
+    
+    then(res => {
+      console.log(res);
+      dispatch(deleteUserSuccess(res.data.message)); // deleting an account will directly navigate the user to sign-in page due to the private route component.
+
+    }).
+    catch(error => {
+      console.log(error);
+      dispatch(deleteUserFailure(error));
+    })
+
 
   }
 

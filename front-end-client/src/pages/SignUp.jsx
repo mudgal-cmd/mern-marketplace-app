@@ -52,7 +52,7 @@ function SignUp(){
       setLoadingEffect(false);
     });
     
-    console.log(currentUser);
+    // console.log(currentUser);
 
   }
 
