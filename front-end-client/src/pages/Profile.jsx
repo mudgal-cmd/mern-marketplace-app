@@ -84,6 +84,10 @@ function Profile(){
   
   }
 
+  const handleImageRef = () => {
+    fileRef.current.click();
+  }
+
   const handleFormDataChange = (e)=>{
     // console.log(updateFormData);
 
@@ -99,8 +103,8 @@ function Profile(){
       "Content-Type" : "application/json"
     }}).then(res => {
 
-      console.log(res);
-      dispatch(updateUserSuccess(res.data));
+      console.log(res.data.userData);
+      dispatch(updateUserSuccess(res.data.userData));
 
     }).catch(err => {
       console.log(err);
@@ -115,8 +119,8 @@ function Profile(){
       <input type="file" onChange={(e) => getFile(e)} ref={fileRef} accept="image/*" hidden/> {/*Image file input kept hidden and "accept*" property ensuring only image files are accepted */}
       <form className="flex flex-col gap-4"  onSubmit={handleUpdateFormSubmit}>
         <div className="self-center w-24 h-24 flex justify-center items-center group">
-          <img onClick={()=> fileRef.current.click()} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className=" object-cover h-24 w-24 rounded-full self-center hover:opacity-40 hover:cur"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
-          <img src={cameraLogo} className="absolute  opacity-0 transition-opacity w-12 h-12 duration-300 hover:cursor-pointer group-hover:opacity-50"/>
+          <img onClick={handleImageRef} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className=" object-cover h-24 w-24 rounded-full self-center hover:opacity-40 hover:cur"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
+          <img src={cameraLogo} onClick={handleImageRef} className="absolute  opacity-0 transition-opacity w-12 h-12 duration-300 hover:cursor-pointer group-hover:opacity-50"/>
         </div>
         <p className="self-center text-sm">
           {

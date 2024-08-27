@@ -106,3 +106,7 @@ export const oauthUserLoginController = async (req, res, next) => { //controller
   }
 
 }
+
+export const signOutUserController = (req, res, next) => {
+  
+}
