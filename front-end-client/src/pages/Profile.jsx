@@ -115,7 +115,7 @@ function Profile(){
       <input type="file" onChange={(e) => getFile(e)} ref={fileRef} accept="image/*" hidden/> {/*Image file input kept hidden and "accept*" property ensuring only image files are accepted */}
       <form className="flex flex-col gap-4"  onSubmit={handleUpdateFormSubmit}>
         <div className="self-center w-24 h-24 flex justify-center items-center group">
-          <img onClick={()=> fileRef.current.click()} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className=" object-cover h-24 w-24 rounded-full self-center hover:opacity-40"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
+          <img onClick={()=> fileRef.current.click()} src= {updateFormData.avatar || currentUser.avatar} alt="profile-picture" className=" object-cover h-24 w-24 rounded-full self-center hover:opacity-40 hover:cur"/> {/* if the formdata has avatar, it will be shown else the image in db will be displayed*/}
           <img src={cameraLogo} className="absolute  opacity-0 transition-opacity w-12 h-12 duration-300 hover:cursor-pointer group-hover:opacity-50"/>
         </div>
         <p className="self-center text-sm">
@@ -132,9 +132,9 @@ function Profile(){
             :""
           }
         </p>
-        <input type="text" name="username" id="username" defaultValue={currentUser.username} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/>
-        <input type="text" name="email" id="email" defaultValue={currentUser.email} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/>
-        <input type="password" name="password" id="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/>
+        <input type="text" name="username" id="username" defaultValue={currentUser.username} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange} required/>
+        <input type="text" name="email" id="email" defaultValue={currentUser.email} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange} required/>
+        {/* <input type="password" name="password" id="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/> */}
       {loadingEffect? <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition">Loading
         <div className="inline-block">...</div>
       </button> : <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition">Update Profile</button>}

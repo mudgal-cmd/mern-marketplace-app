@@ -7,19 +7,21 @@ export const defaultUserController = (req, res) =>{
 }
 
 export const updateUserController = async (req, res, next) => {
-  
-  
 
   const {id} = req.user;
 
-  console.log(req.params.id);
+  // console.log(req.params.id);
 
   if(id !== req.params.id) return next(errorHandler(401, "Unauthorized")); // if the _id in body and path params do not match, that means the user do not match, hence we'd throw the error and doesn't let the user proceed with the update.
+
+  console.log(req.body);
 
   try{
     if(req.body.password) {
        req.body.password = hashPassword(req.body.password, 10); //if user wants to update the password, in other words if password is present in the req.body then we'd hash it.
     }
+
+    
 
     const updatedUser = await User.findByIdAndUpdate(id, {
       $set: { // our body/payload could possibly contain some additional info, we would just extract whatever we need, nothing extra.
