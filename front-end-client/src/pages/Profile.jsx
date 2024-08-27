@@ -86,7 +86,7 @@ function Profile(){
 
   const handleImageRef = () => {
     fileRef.current.click();
-  }
+  } // this handler is particularly created to reuse the useRef hook to allow user to change the profile pic by clicking on either the profile image or the camera icon.
 
   const handleFormDataChange = (e)=>{
     // console.log(updateFormData);

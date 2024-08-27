@@ -77,9 +77,9 @@ export const oauthUserLoginController = async (req, res, next) => { //controller
 
     const {password, ...userInfo} = findUser._doc;
 
-    res.cookie("access_token", token, {httpOnly: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).send(userInfo);
+    res.cookie("access_token", token, {httpOnly: true, secure: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).send(userInfo);
 
-  }
+  }// secure will be set to true when the app is running in the production / https
   else{
     // return res.send("User not found. We'll need to sign them up");
 
@@ -107,6 +107,3 @@ export const oauthUserLoginController = async (req, res, next) => { //controller
 
 }
 
-export const signOutUserController = (req, res, next) => {
-  
-}

@@ -8,6 +8,8 @@ export const defaultUserController = (req, res) =>{
 
 export const updateUserController = async (req, res, next) => {
 
+  // console.log(req);
+
   const {id} = req.user;
 
   // console.log(req.params.id);
@@ -48,4 +50,24 @@ export const updateUserController = async (req, res, next) => {
 
 }
 
-// export default defaultUserController;
+export const deleteUserController = async (req, res, next) => {
+  console.log(req.user);
+  console.log(req.cookies);
+  console.log(req.params);
+
+  const { id } = req.user; // getting the user id after verifying/decrypting the JWT access token 
+
+  if(id!==req.params.id) return next(errorHandler(403, "Unauthorized.")); //matching the params id (from the request) with the decoded value of the access token that we encrypted while signing the JWT token and creating the cookie.
+
+  console.log(id);
+  try{
+
+    const userToBeDeleted = await User.findByIdAndDelete(id, {new: true}); // ? do we want the user after deleting it? if not, then new should be set to true.
+
+    res.status(200).json({success: true, message: "User deleted successfully", userToBeDeleted});
+
+  }
+  catch(error){next(error);} // handling any possible errors during the operations so that our app doesn't crash.
+  
+
+}

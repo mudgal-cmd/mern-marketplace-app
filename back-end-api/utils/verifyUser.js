@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { errorHandler } from "./error.js";
 
-export const verifyUserToken = (req, res, next) => { // function to verify the user jwt token saved in the cookie.
+export const verifyUserToken = (req, _, next) => { // function to verify the user jwt token saved in the cookie.
   // console.log("User verified");
   // console.log("Verify token executed");
 
