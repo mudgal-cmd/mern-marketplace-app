@@ -104,7 +104,6 @@ function Profile(){
     await axios.put(`/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
       "Content-Type" : "application/json"
     }}).then(res => {
-
       console.log(res.data.userData);
       dispatch(updateUserSuccess(res.data.userData));
 

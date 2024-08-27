@@ -107,3 +107,15 @@ export const oauthUserLoginController = async (req, res, next) => { //controller
 
 }
 
+export const userSignOutController = (req, res, next) => {
+
+  const { id } = req.user;
+
+  if(id !== req.params.id) return next(errorHandler(401, "You can only signout from your own account"));
+
+  
+
+  res.clearCookie("access_token").status(204).json({success: true, message: "User logged out"});
+
+}
+

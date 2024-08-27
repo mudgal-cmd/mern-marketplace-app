@@ -65,7 +65,7 @@ export const deleteUserController = async (req, res, next) => {
     const userToBeDeleted = await User.findByIdAndDelete(id, {new: true}); // ? do we want the user after deleting it? if not, then new should be set to true.
 
 
-    res.clearCookie("access_token").status(200).json({success: true, message: "User deleted successfully"});
+    res.clearCookie("access_token").status(200).json({success: true, message: "User deleted successfully"}); // cleared the user cookie as well upon deleting the user.
 
   }
   catch(error){next(error);} // handling any possible errors during the operations so that our app doesn't crash.
