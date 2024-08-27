@@ -113,6 +113,14 @@ function Profile(){
 
   }
 
+  const handleDeleteUser = () => {
+
+    // dispatch(delete)
+
+  }
+
+
+
   return(
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="font-semibold text-3xl my-8 text-center">Profile</h1>
@@ -145,7 +153,7 @@ function Profile(){
       </form>
 
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition">Delete Account</span>
+        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition" onClick={handleDeleteUser}>Delete Account</span>
         <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition">Sign Out</span>
       </div>
 

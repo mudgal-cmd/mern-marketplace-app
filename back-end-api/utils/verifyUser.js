@@ -11,6 +11,8 @@ export const verifyUserToken = (req, _, next) => { // function to verify the use
 
   // console.log(access_token);
 
+  if(!access_token) return next(errorHandler(401, "Unauthorized")); // in case we did not find the JWT token. No active user session/cookie.
+
   jwt.verify(access_token, process.env.JWT_SECRET, (err, decoded) => { //jwt.verify() method takes 3 arguments, the callback being the 3rd one.
     if(err) return next(errorHandler(403, err)); // if there is any error during the token verification, break the execution and send the error
 
