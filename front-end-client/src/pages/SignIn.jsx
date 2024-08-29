@@ -79,8 +79,8 @@ function SignIn() {
 
   return (
     <div className="max-w-lg mx-auto p-2 relative">
-      <h1 className="font-semibold text-3xl my-5 text-center">Sign In</h1>
-      <div className="flex w-full items-center transform transition-transform duration-300 ease-in-out hover:scale-105">
+      <h1 className="font-semibold text-2xl my-5 text-center">Sign In</h1>
+      <div className="flex w-full items-center animate-float">
         <div className="rounded-xl bg-slate-200 bg-opacity-50 px-16 py-10 shadow-lg max-sm:px-8 w-full">
           <div className="mb-8 flex flex-col items-center">
             <img src={logo} width="150" alt="" srcset="" />
@@ -124,7 +124,7 @@ function SignIn() {
           </form>
         </div>
       </div>
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex gap-2 hover:animate-bounce">
         <h1>Don't have an account yet?</h1>
         <Link to={"/sign-up"} className="text-blue-700 hover:text-blue-500">
           Sign Up

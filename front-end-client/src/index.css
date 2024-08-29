@@ -5,3 +5,12 @@ body{
   background-color: rgb(241, 245, 241);
 }
 /* Adding bg color to every page */
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+:hover.animate-float {
+  animation: float 3s ease-in-out;
+}

@@ -6,6 +6,8 @@ import axios from "axios";
 
 import OAuth from "../components/OAuth";
 
+import { logo } from "../assets";
+
 // import { Provider } from "react-redux";
 
 // import { useSelector } from "react-redux";
@@ -57,8 +59,18 @@ function SignUp(){
   }
 
   return(
-    <div className="p-3 max-w-lg mx-auto"> {/*mx-auto to bring the items in the center. max-w-lg to ensure the width of the field do not exceed the lg/large viewport*/}
-      <h1 className="text-center my-7 font-semibold text-3xl">Sign Up</h1>
+    <div className="p-1 max-w-lg mx-auto relative"> {/*mx-auto to bring the items in the center. max-w-lg to ensure the width of the field do not exceed the lg/large viewport*/}
+      <h1 className="text-center my-3 font-semibold text-2xl">Sign Up</h1>
+
+      <div className="flex w-full items-center animate-float">
+        <div className="rounded-xl bg-slate-200 bg-opacity-50 px-16 py-10 shadow-lg max-sm:px-8 w-full">
+          <div className="mb-8 flex flex-col items-center">
+            <img src={logo} width="150" alt="" srcset="" />
+            <div className="text-xl sm:text-lg">
+              <span className="text-slate-500">Urban</span>
+              <span className="text-slate-700 font-bold">UTOPIA</span>
+            </div>
+          </div>
 
       <form className="flex flex-col gap-4" onSubmit={handleSignUpSubmit}> {/* gap for the spacing between them*/}
         <input type="text" placeholder="Username" className="border p-3 rounded-lg outline-slate-400" id="username" onChange={handleSignUpChange}/> {/*"id" attribute to know which input is changing so that we can manipulate it*/}
@@ -70,8 +82,10 @@ function SignUp(){
         <OAuth/>
 
       </form>
+      </div>
+      </div>
 
-      <div className="flex gap-2 mt-5"> {/*mt- for the margin top*/}
+      <div className="flex gap-2 mt-5 hover:animate-bounce"> {/*mt- for the margin top*/}
         <p>Have an account? </p>
         <Link to={"/sign-in"}>
           <span className="text-blue-700 hover:text-blue-500">Sign in</span>
