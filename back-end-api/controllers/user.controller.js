@@ -23,8 +23,6 @@ export const updateUserController = async (req, res, next) => {
        req.body.password = hashPassword(req.body.password, 10); //if user wants to update the password, in other words if password is present in the req.body then we'd hash it.
     }
 
-
-
     const updatedUser = await User.findByIdAndUpdate(id, {
       $set: { // our body/payload could possibly contain some additional info, we would just extract whatever we need, nothing extra.
         email: req.body.email,
@@ -62,7 +60,7 @@ export const deleteUserController = async (req, res, next) => {
   console.log(id);
   try{
 
-    const userToBeDeleted = await User.findByIdAndDelete(id, {new: true}); // ? do we want the user after deleting it? if not, then new should be set to true.
+    await User.findByIdAndDelete(id, {new: true}); // ? do we want the user after deleting it? if not, then new should be set to true.
 
 
     res.clearCookie("access_token").status(200).json({success: true, message: "User deleted successfully"}); // cleared the user cookie as well upon deleting the user.

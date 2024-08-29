@@ -1,3 +1,4 @@
 import cameraLogo from "./camera-logo.png";
+import logo from "./logo.png";
 
-export {cameraLogo};
+export {cameraLogo, logo};

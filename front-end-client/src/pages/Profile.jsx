@@ -139,7 +139,7 @@ function Profile(){
         dispatch(signOutSuccess());
       })
       .catch(error => {
-        dispatch(signOutFailure(error.response.data.message));
+        dispatch(signOutFailure(error.response.data.message)); // to show error at the bottom of the page.
       });
 
     

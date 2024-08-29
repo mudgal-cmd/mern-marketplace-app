@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {Routes, Route} from "react-router-dom";
 import SignIn from "../pages/SignIn";
+import {logo} from "../assets/index.js";
 
 function Header() {
   const { currentUser } = useSelector((state) => state.user);
@@ -17,8 +18,11 @@ function Header() {
         <Link to={"/"}>
           {" "}
           {/* Advisable to wrap the elements inside the Link for the ease of SEO, styling, and adding event handlers*/}
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
+          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap justify-center items-center">
             {/* flex-wrap will wrap the 3 components of the header bringing them on top of each other */}
+            <div className="w-16 h-10 object-contain mr-4">
+              <img src={logo} className="w-full h-full"/>
+            </div>
             <span className="text-slate-500">Urban</span>
             <span className="text-slate-700">UTOPIA</span>
           </h1>
