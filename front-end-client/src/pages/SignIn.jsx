@@ -83,7 +83,7 @@ function SignIn() {
       <div className="flex w-full items-center animate-float">
         <div className="rounded-xl bg-slate-200 bg-opacity-50 px-16 py-10 shadow-lg max-sm:px-8 w-full">
           <div className="mb-8 flex flex-col items-center">
-            <img src={logo} width="150" alt="" srcset="" />
+            <img src={logo} width="150" alt="" srcSet="" />
             <div className="text-xl sm:text-lg">
               <span className="text-slate-500">Urban</span>
               <span className="text-slate-700 font-bold">UTOPIA</span>
@@ -124,7 +124,7 @@ function SignIn() {
           </form>
         </div>
       </div>
-      <div className="mt-4 flex gap-2 hover:animate-bounce">
+      <div className="mt-4 flex gap-2 hover:animate-custom-bounce"> {/*custom-bounce is the custom css class created by extending the animation in tailwind.confi file to fix the issue with the bouncing animation where the element bounced really rigourously when hovered close to it.*/}
         <h1>Don't have an account yet?</h1>
         <Link to={"/sign-up"} className="text-blue-700 hover:text-blue-500">
           Sign Up

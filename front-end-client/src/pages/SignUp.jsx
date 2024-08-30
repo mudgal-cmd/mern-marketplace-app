@@ -85,8 +85,8 @@ function SignUp(){
       </div>
       </div>
 
-      <div className="flex gap-2 mt-5 hover:animate-bounce"> {/*mt- for the margin top*/}
-        <p>Have an account? </p>
+      <div className="flex gap-2 mt-5 hover:animate-custom-bounce"> {/*custom-bounce is the custom css class created by extending the animation in tailwind.confi file to fix the issue with the bouncing animation where the element bounced really rigourously when hovered close to it.*/}
+        <p>Already have an account? </p>
         <Link to={"/sign-in"}>
           <span className="text-blue-700 hover:text-blue-500">Sign in</span>
         </Link>
