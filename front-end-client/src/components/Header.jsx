@@ -20,7 +20,7 @@ function Header() {
           {/* Advisable to wrap the elements inside the Link for the ease of SEO, styling, and adding event handlers*/}
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap justify-center items-center">
             {/* flex-wrap will wrap the 3 components of the header bringing them on top of each other */}
-            <div className="w-16 h-10 object-contain mr-4">
+            <div className="w-16 h-10 object-contain mr-4 animate-bounce">
               <img src={logo} className="w-full h-full"/>
             </div>
             <span className="text-slate-500">Urban</span>

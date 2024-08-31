@@ -59,7 +59,7 @@ function SignUp(){
   }
 
   return(
-    <div className="p-1 max-w-lg mx-auto relative"> {/*mx-auto to bring the items in the center. max-w-lg to ensure the width of the field do not exceed the lg/large viewport*/}
+    <div className="p-1 max-w-lg mx-auto relative "> {/*mx-auto to bring the items in the center. max-w-lg to ensure the width of the field do not exceed the lg/large viewport*/}
       <h1 className="text-center my-3 font-semibold text-2xl">Sign Up</h1>
 
       <div className="flex w-full items-center animate-float">
@@ -77,9 +77,9 @@ function SignUp(){
         <input type="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" id="password" onChange={handleSignUpChange}/>
         <input type="email" placeholder="Email" className="border p-3 rounded-lg outline-slate-400" id="email" onChange={handleSignUpChange}/>
 
-        <button disabled={loadingEffect || error}className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 transition disabled:opacity-80">{loadingEffect? "Loading..." : "Sign Up"}</button>
+        <button disabled={loadingEffect || error} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:bg-white hover:text-slate-700 hover:border hover:border-solid hover:border-slate-700 disabled:opacity-80">{loadingEffect? "Loading..." : "Sign Up"}</button>
 
-        <OAuth/>
+        <OAuth className= "hover:border hover:border-red-700 hover:border-solid hover:text-red-700 hover:bg-white"/>
 
       </form>
       </div>

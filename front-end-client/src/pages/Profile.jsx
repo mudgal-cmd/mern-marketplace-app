@@ -8,6 +8,7 @@ import {updateUserStart, updateUserSuccess, updateUserFailure,
   signOutStart, signOutSuccess, signOutFailure
 } from "../redux/user/userSlice.js";
 import { cameraLogo } from "../assets/index.js";
+import {Link} from "react-router-dom";
 
 function Profile(){
 
@@ -173,9 +174,10 @@ function Profile(){
         <input type="text" name="username" id="username" defaultValue={currentUser.username} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange} required/>
         <input type="text" name="email" id="email" defaultValue={currentUser.email} className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange} required/>
         {/* <input type="password" name="password" id="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/> */}
-      {loadingEffect? <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition">Loading
+      {loadingEffect? <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition uppercase">Loading
         <div className="inline-block">...</div>
-      </button> : <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition">Update Profile</button>}
+      </button> : <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition uppercase">Update Profile</button>}
+      <Link to={"/create-listing"} className="bg-green-700 text-white p-3 rounded-lg hover:opacity-90 uppercase text-center">Create Listing</Link>
       </form>
 
       <div className="flex justify-between mt-5">
