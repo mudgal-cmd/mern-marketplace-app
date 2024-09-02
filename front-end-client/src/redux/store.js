@@ -1,10 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userReducer from "../redux/user/userSlice.js"
+import userReducer from "./user/userSlice.js"
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import {persistStore} from "redux-persist";
+import listingReducer from "./listing/listingSlice.js";
 
-const rootReducer = combineReducers({user: userReducer});
+const rootReducer = combineReducers({user: userReducer, listing: listingReducer}); //integrated the listing and user reducers to the global state.
 
 const persistConfig = {
   key : "root", 
