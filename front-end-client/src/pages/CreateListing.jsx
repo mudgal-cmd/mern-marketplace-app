@@ -18,20 +18,27 @@ const CreateListing = () => {
   
   const {currentUser} = useSelector(state => state.user); // need to tap into the user state to get the user id to be passed as a param
 
-  const{listingFile, setListingFile} = useState(undefined);
+  const[listingFiles, setListingFile] = useState([]);
   
-  const storage = getStorage(app);
-
   const getCurrentListingImage = (event) => {
 
-    console.log(event);
-
-    setListingFile(event.target.files[0]);//can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
+    console.log(event.target.files);
+    console.log(typeof event.target.files);
+    
+    setListingFile(event.target.files);//can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
 
   } // function to get the current image
 
   const handleListingImageUpload = (file) => {
     
+    const storage = getStorage(app);
+
+    const listingImageName = new Date().getTime() + listingFile.name;
+
+    const storageRef = ref(storage, listingImageName);
+
+    const uploadListingImageTask = uploadBytesResumable(storageRef, listingImageName);
+
   }
 
   const handleListingFormChange = (event) => {
