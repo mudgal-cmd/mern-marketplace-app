@@ -176,13 +176,13 @@ function Profile(){
         {/* <input type="password" name="password" id="password" placeholder="Password" className="border p-3 rounded-lg outline-slate-400" onChange={handleFormDataChange}/> */}
       {loadingEffect? <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition uppercase">Loading
         <div className="inline-block">...</div>
-      </button> : <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 transition uppercase">Update Profile</button>}
-      <Link to={"/create-listing"} className="bg-green-700 text-white p-3 rounded-lg hover:opacity-90 uppercase text-center">Create Listing</Link>
+      </button> : <button className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 uppercase border hover:text-slate-700 hover:border-slate-700 hover:bg-white transition hover:shadow-lg">Update Profile</button>}
+      <Link to={"/create-listing"} className="bg-green-700 text-white p-3 rounded-lg hover:bg-white hover:text-green-700 border hover:border-green-700 uppercase text-center transition hover:shadow-lg">Create Listing</Link>
       </form>
 
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition" onClick={handleDeleteUser}>Delete Account</span>
-        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition" onClick={handleUserSignOut}>Sign Out</span>
+        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition hover:animate-custom-bounce" onClick={handleDeleteUser}>Delete Account</span>
+        <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition hover:animate-custom-bounce" onClick={handleUserSignOut}>Sign Out</span>
       </div>
       {error? <p className="text-red-600 mt-3">{error}</p> : ""}
     </div>

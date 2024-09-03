@@ -6,20 +6,52 @@ import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/
 
 import axios from "axios";
 
+import { app } from "../firebase.js";
+
 
 const CreateListing = () => {
 
+  
   const [listingFormData, setListingFormData] = useState({});
-
+  
   const {currentListing, loadingListing, error} = useSelector(state => state.listing);
+  
+  const {currentUser} = useSelector(state => state.user); // need to tap into the user state to get the user id to be passed as a param
 
-  const handleListingFormChange = (event) => {
+  const{listingFile, setListingFile} = useState(undefined);
+  
+  const storage = getStorage(app);
 
+  const getCurrentListingImage = (event) => {
+
+    console.log(event);
+
+    setListingFile(event.target.files[0]);//can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
+
+  } // function to get the current image
+
+  const handleListingImageUpload = (file) => {
+    
   }
 
-  const handleListingSubmit = () => {
+  const handleListingFormChange = (event) => {
+    setListingFormData({...listingFormData, [event.target.name]: event.target.value});
+    // console.log(event); 
+  } // event handler function for the form data except the checkboxes.
 
-    axios.post("/api/listing")
+  const handleFormCheckboxChange = (event) => {
+    if(event.target.checked) setListingFormData({...listingFormData, [event.target.name]: true});
+    // console.log(event);
+  } // event handler function for the checkboxes, as we are storing the value of checkboxes (if a checkbox is checked or not) as boolean in our schema/db.
+  
+  // console.log(listingFormData);
+
+  const handleListingSubmit = (event) => {
+
+    event.preventDefault();
+
+    console.log(listingFormData);
+    // axios.post("/api/listing/createListing")
 
   }
 
@@ -37,24 +69,24 @@ const CreateListing = () => {
           <div className="flex gap-5 flex-wrap">
             <div className="flex gap-2">
             
-              <input type="checkbox" id="sell" name="sell" className="w-4" onChange={handleListingFormChange}/>
+              <input type="checkbox" id="sell" name="sell" className="w-4" onChange={handleFormCheckboxChange}/>
               <span>Sell</span>
 
             </div>
             <div className="flex gap-2">
-              <input type="checkbox" id="rent" name="rent" className="w-4"onChange={handleListingFormChange} />
+              <input type="checkbox" id="rent" name="rent" className="w-4"onChange={handleFormCheckboxChange} />
               <span>Rent</span>
             </div>
             <div className="flex gap-2">
-              <input type="checkbox" id="parking" name="parking" className="w-4" onChange={handleListingFormChange}/>
+              <input type="checkbox" id="parking" name="parking" className="w-4" onChange={handleFormCheckboxChange}/>
               <span>Parking Spot</span>
             </div>
             <div className="flex gap-2">
-              <input type="checkbox" id="furnished" name="furnished" className="w-4" onChange={handleListingFormChange}/>
+              <input type="checkbox" id="furnished" name="furnished" className="w-4" onChange={handleFormCheckboxChange}/>
               <span>Furnished</span>
             </div>
             <div className="flex gap-2">
-              <input type="checkbox" id="offer" name="offer" className="w-4" onChange={handleListingFormChange}/>
+              <input type="checkbox" id="offer" name="offer" className="w-4" onChange={handleFormCheckboxChange}/>
               <span>Offer</span>
             </div>
           </div>
@@ -92,13 +124,13 @@ const CreateListing = () => {
             <span className="font-normal text-gray-600 ml-2">The first image will be the cover (max 6)</span>
           </p>
           <div className="flex gap-4">
-            <input className="p-3 border border-gray-300 rounded w-full" type="file" id="images" accept="image/*" multiple onChange={handleListingFormChange} />
+            <input className="p-3 border border-gray-300 rounded w-full" name="listing-image" type="file" id="images" accept="image/*" multiple onChange={getCurrentListingImage} />
             <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80">Upload</button>
           </div>
-          <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80">Create Listing</button>  
+          <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg">Create Listing</button>  
         </div>
         
-      </form>
+      </form> 
     </main>
   )
 }
