@@ -68,7 +68,7 @@ function Profile(){
         // console.log(fileUploadPerc);
       }
     ,
-    (error) => {setFileUploadError(error);},
+    (error) => {setFileUploadError(error); console.log(error)},
     ()=>{
       getDownloadURL(uploadFileTask.snapshot.ref).then(
         (downloadURL)=> {

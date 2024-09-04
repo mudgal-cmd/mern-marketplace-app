@@ -18,7 +18,7 @@ const CreateListing = () => {
   
   const {currentUser} = useSelector(state => state.user); // need to tap into the user state to get the user id to be passed as a param
 
-  const[listingFiles, setListingFile] = useState([]);
+  const[listingFiles, setListingFile] = useState();
   
   const getCurrentListingImage = (event) => {
 
@@ -33,12 +33,34 @@ const CreateListing = () => {
     
     const storage = getStorage(app);
 
-    const listingImageName = new Date().getTime() + listingFile.name;
+    console.log(file[0].name);
+
+    const listingImageName = new Date().getTime() + file[0].name;
+
+    console.log(listingImageName);
+    console.log(typeof listingImageName);
 
     const storageRef = ref(storage, listingImageName);
 
-    const uploadListingImageTask = uploadBytesResumable(storageRef, listingImageName);
+    const uploadListingImageTask = uploadBytesResumable(storageRef, file[0]);
 
+    uploadListingImageTask.on("state_changed", 
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred/ snapshot.totalBytes)*100;
+        console.log("File upload ",progress,"%");
+      },
+      (error) => {console.log(error);},
+      ()=>{
+        getDownloadURL(uploadListingImageTask.snapshot.ref).then(
+          (downloadURL) => {console.log(downloadURL);}
+        )
+      }
+    )
+
+  }
+
+  const imageUploadHandler = () => {
+    handleListingImageUpload(listingFiles);
   }
 
   const handleListingFormChange = (event) => {
@@ -132,7 +154,7 @@ const CreateListing = () => {
           </p>
           <div className="flex gap-4">
             <input className="p-3 border border-gray-300 rounded w-full" name="listing-image" type="file" id="images" accept="image/*" multiple onChange={getCurrentListingImage} />
-            <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80">Upload</button>
+            <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80" onClick={imageUploadHandler}>Upload</button>
           </div>
           <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg">Create Listing</button>  
         </div>
