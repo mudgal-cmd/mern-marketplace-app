@@ -12,55 +12,75 @@ import { app } from "../firebase.js";
 const CreateListing = () => {
 
   
-  const [listingFormData, setListingFormData] = useState({});
+  const [listingFormData, setListingFormData] = useState({imageURLs:[]});
   
   const {currentListing, loadingListing, error} = useSelector(state => state.listing);
   
   const {currentUser} = useSelector(state => state.user); // need to tap into the user state to get the user id to be passed as a param
 
-  const[listingFiles, setListingFile] = useState();
+  const[listingFiles, setListingFiles] = useState([]);
   
-  const getCurrentListingImage = (event) => {
+  const getListingImage = () => {
+    if(listingFiles.length>0 && listingFiles.length<7){//listingFiles is FileList object and not exactly a true array.
 
-    console.log(event.target.files);
-    console.log(typeof event.target.files);
-    
-    setListingFile(event.target.files);//can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
+      let promises = []
+      // console.log(Array.isArray(listingFiles));
+      // console.log(listingFiles);
+      for(let file of listingFiles){
+        promises.push(storeImageInFirebase(file));
+      }
+
+      Promise.all(promises).then((urls) => {
+        console.log(urls);
+        console.log(Array.isArray(urls));
+        //directly using imageURLs : urls will just replace the imageURLs with the new/uploaded ones, and we don't want that. We'd like to retain the previous URLs as well and just add the new ones to the older imageURL array
+        setListingFormData({...listingFormData, imageURLs:listingFormData.imageURLs.concat(urls)}); //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigegr the re-renders.
+      });
+      console.log(listingFormData);
+
+    }
+
+    //can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
 
   } // function to get the current image
 
-  const handleListingImageUpload = (file) => {
+  const storeImageInFirebase = async (file) => {
+
+    return new Promise((resolve, reject) => {
+
+      const storage = getStorage(app);
+  
+      // console.log(file.name);
+  
+      const listingImageName = new Date().getTime() + file.name;
+  
+      // console.log(listingImageName);
+      // console.log(typeof listingImageName);
+  
+      const storageRef = ref(storage, listingImageName);
+  
+      const uploadListingImageTask = uploadBytesResumable(storageRef, file);
+  
+      uploadListingImageTask.on("state_changed", 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred/ snapshot.totalBytes)*100;
+          // console.log(file);
+          console.log("File upload ",progress,"%");
+        },
+        (error) => {console.log(error);
+          reject(error);
+        },
+        ()=>{
+          getDownloadURL(uploadListingImageTask.snapshot.ref).then(
+            (downloadURL) => {console.log(downloadURL);
+              resolve(downloadURL);
+            }
+          )
+        }
+      )
+    });
     
-    const storage = getStorage(app);
 
-    console.log(file[0].name);
-
-    const listingImageName = new Date().getTime() + file[0].name;
-
-    console.log(listingImageName);
-    console.log(typeof listingImageName);
-
-    const storageRef = ref(storage, listingImageName);
-
-    const uploadListingImageTask = uploadBytesResumable(storageRef, file[0]);
-
-    uploadListingImageTask.on("state_changed", 
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred/ snapshot.totalBytes)*100;
-        console.log("File upload ",progress,"%");
-      },
-      (error) => {console.log(error);},
-      ()=>{
-        getDownloadURL(uploadListingImageTask.snapshot.ref).then(
-          (downloadURL) => {console.log(downloadURL);}
-        )
-      }
-    )
-
-  }
-
-  const imageUploadHandler = () => {
-    handleListingImageUpload(listingFiles);
   }
 
   const handleListingFormChange = (event) => {
@@ -153,8 +173,8 @@ const CreateListing = () => {
             <span className="font-normal text-gray-600 ml-2">The first image will be the cover (max 6)</span>
           </p>
           <div className="flex gap-4">
-            <input className="p-3 border border-gray-300 rounded w-full" name="listing-image" type="file" id="images" accept="image/*" multiple onChange={getCurrentListingImage} />
-            <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80" onClick={imageUploadHandler}>Upload</button>
+            <input className="p-3 border border-gray-300 rounded w-full" name="listing-image" type="file" id="images" accept="image/*" multiple onChange={(e) => setListingFiles(e.target.files)}/>
+            <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80" onClick={getListingImage}>Upload</button>
           </div>
           <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg">Create Listing</button>  
         </div>
