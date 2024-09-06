@@ -33,8 +33,12 @@ const CreateListing = () => {
       Promise.all(promises).then((urls) => {
         console.log(urls);
         console.log(Array.isArray(urls));
+        
         //directly using imageURLs : urls will just replace the imageURLs with the new/uploaded ones, and we don't want that. We'd like to retain the previous URLs as well and just add the new ones to the older imageURL array
-        setListingFormData({...listingFormData, imageURLs:listingFormData.imageURLs.concat(urls)}); //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigegr the re-renders.
+
+        setListingFormData({...listingFormData, imageURLs:listingFormData.imageURLs.concat(urls)}); 
+        
+        //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigegr the re-renders.
       });
       console.log(listingFormData);
 
