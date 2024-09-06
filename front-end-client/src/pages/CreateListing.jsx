@@ -19,9 +19,11 @@ const CreateListing = () => {
   const {currentUser} = useSelector(state => state.user); // need to tap into the user state to get the user id to be passed as a param
 
   const[listingFiles, setListingFiles] = useState([]);
+
+  const[imageUploadError, setImageUploadError] = useState(false);
   
   const getListingImage = () => {
-    if(listingFiles.length>0 && listingFiles.length<7){//listingFiles is FileList object and not exactly a true array.
+    if(listingFiles.length>0 && listingFiles.length + listingFormData.imageURLs.length<7){//listingFiles is FileList object and not exactly a true array.
 
       let promises = []
       // console.log(Array.isArray(listingFiles));
@@ -33,16 +35,21 @@ const CreateListing = () => {
       Promise.all(promises).then((urls) => {
         console.log(urls);
         console.log(Array.isArray(urls));
-        
+
         //directly using imageURLs : urls will just replace the imageURLs with the new/uploaded ones, and we don't want that. We'd like to retain the previous URLs as well and just add the new ones to the older imageURL array
 
         setListingFormData({...listingFormData, imageURLs:listingFormData.imageURLs.concat(urls)}); 
         
-        //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigegr the re-renders.
-      });
+        //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigger the re-renders.
+
+        setImageUploadError(false); //to remove any previous errors
+
+      }).catch(error=> setImageUploadError("Uploaded Image size cannot exceed 2MB."));
       console.log(listingFormData);
 
     }
+
+    else setImageUploadError("You can upload a max of 6 images");
 
     //can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
 
@@ -105,6 +112,18 @@ const CreateListing = () => {
 
     console.log(listingFormData);
     // axios.post("/api/listing/createListing")
+
+  }
+
+  const deleteImage = (index) => {
+
+    // listingFormData.imageURLs.splice(index,1);
+
+    const filteredImageUrls = listingFormData.imageURLs.filter((url, i) => i!==index);
+
+    console.log(filteredImageUrls);
+ 
+    setListingFormData({...listingFormData, imageURLs: filteredImageUrls});
 
   }
 
@@ -180,8 +199,21 @@ const CreateListing = () => {
             <input className="p-3 border border-gray-300 rounded w-full" name="listing-image" type="file" id="images" accept="image/*" multiple onChange={(e) => setListingFiles(e.target.files)}/>
             <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80" onClick={getListingImage}>Upload</button>
           </div>
+          <p className="text-red-700 text-sm">{imageUploadError? `Error: ${imageUploadError}`: "" }</p>
+          {
+            listingFormData.imageURLs.length>0 && listingFormData.imageURLs.map((url, index) => (
+              <div key={url} className="flex justify-between p-3 border items-center">
+
+                <img src={url} alt="listing image" className="w-20 h-20 object-cover rounded-lg border" />
+
+                <button type="button" onClick={()=>deleteImage(index)} className="p-3 text-red-700 uppercase rounded-lg hover:opacity-75">Delete</button>
+              
+              </div>
+            ))
+          }
           <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg">Create Listing</button>  
         </div>
+
         
       </form> 
     </main>

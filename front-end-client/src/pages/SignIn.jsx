@@ -116,7 +116,8 @@ function SignIn() {
             </div>
             <button
               disabled={loadingEffect || error}
-              className=" bg-slate-700 text-white p-3 rounded-lg hover:opacity-90 transition"
+              className=" bg-slate-700 text-white p-3 rounded-lg border
+              hover:bg-white hover:text-slate-700 hover:border-slate-700"
             >
               {loadingEffect ? "Loading..." : "SIGN IN"}
             </button>
