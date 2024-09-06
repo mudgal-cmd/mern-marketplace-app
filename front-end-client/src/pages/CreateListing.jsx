@@ -37,13 +37,16 @@ const CreateListing = () => {
 
   const[imageUploadError, setImageUploadError] = useState(false);
 
-  const [loadingImage, setLoadingImage] = useState(false);
+  const [loadingImage, setLoadingImage] = useState(false); // state to display loading when user clicks upload
 
-  const [formLoading, setFormLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false); // state to handle the loading after submitting the create listing form
+
+  const [listingFormError, setListingFormError] = useState(false);
 
   // const dispatch = useDispatch();
   
   const getListingImage = () => {
+    setListingFormError(false);
     if(listingFiles.length>0 && listingFiles.length + listingFormData.imageURLs.length<7){//listingFiles is FileList object and not exactly a true array.
 
       let promises = []
@@ -123,12 +126,13 @@ const CreateListing = () => {
   }
 
   const handleListingFormChange = (event) => {
+    setImageUploadError(false);
     setListingFormData({...listingFormData, [event.target.name]: event.target.value});
     // console.log(event); 
   } // event handler function for the form data except the checkboxes.
 
   const handleFormCheckboxChange = (event) => {
-
+    setListingFormError(false);
     if(event.target.name === "rent" || event.target.name === "sell") setListingFormData({...listingFormData, listingType: event.target.name});
     
     else if (event.target.name === "offer" || event.target.name === "parking" || event.target.name === "furnished") setListingFormData({...listingFormData, [event.target.name]: event.target.checked});
@@ -143,6 +147,7 @@ const CreateListing = () => {
     // listingFormData.imageURLs.splice(index,1);
 
     setImageUploadError(false);
+    setListingFormError(false);
 
     const filteredImageUrls = listingFormData.imageURLs.filter((url, i) => i!==index);
 
@@ -170,6 +175,7 @@ const CreateListing = () => {
     })
     .catch(err => {
       console.log(err);
+      setListingFormError(err.response.data.message);
       setFormLoading(false);
     // dispatch(createListingFailure(err.response.data.message));
   });
@@ -262,10 +268,11 @@ const CreateListing = () => {
             ))
           }
           <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg" disabled={loadingImage || formLoading} type="submit">{formLoading? "Submitting...": "Create Listing"}</button>  
+      {listingFormError && <p className="text-red-700 text-sm">Error: {listingFormError}</p>}
         </div>
 
         
-      </form> 
+      </form>
     </main>
   )
 }
