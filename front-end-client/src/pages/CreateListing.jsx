@@ -21,6 +21,8 @@ const CreateListing = () => {
   const[listingFiles, setListingFiles] = useState([]);
 
   const[imageUploadError, setImageUploadError] = useState(false);
+
+  const [loadingImage, setLoadingImage] = useState(false);
   
   const getListingImage = () => {
     if(listingFiles.length>0 && listingFiles.length + listingFormData.imageURLs.length<7){//listingFiles is FileList object and not exactly a true array.
@@ -31,10 +33,12 @@ const CreateListing = () => {
       for(let file of listingFiles){
         promises.push(storeImageInFirebase(file));
       }
-
+      
+      setLoadingImage(true);
       Promise.all(promises).then((urls) => {
         console.log(urls);
         console.log(Array.isArray(urls));
+
 
         //directly using imageURLs : urls will just replace the imageURLs with the new/uploaded ones, and we don't want that. We'd like to retain the previous URLs as well and just add the new ones to the older imageURL array
 
@@ -43,6 +47,8 @@ const CreateListing = () => {
         //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigger the re-renders.
 
         setImageUploadError(false); //to remove any previous errors
+
+        setLoadingImage(false);
 
       }).catch(error=> setImageUploadError("Uploaded Image size cannot exceed 2MB."));
       console.log(listingFormData);
@@ -197,8 +203,9 @@ const CreateListing = () => {
           </p>
           <div className="flex gap-4">
             <input className="p-3 border border-gray-300 rounded w-full" name="listing-image" type="file" id="images" accept="image/*" multiple onChange={(e) => setListingFiles(e.target.files)}/>
-            <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80" onClick={getListingImage}>Upload</button>
+            <button className="p-3 bg-green-700 text-white hover:bg-white transition hover:text-green-700 border hover:border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80" onClick={getListingImage} disabled={loadingImage}>{loadingImage? "Loading..." : "Upload"}</button>
           </div>
+
           <p className="text-red-700 text-sm">{imageUploadError? `Error: ${imageUploadError}`: "" }</p>
           {
             listingFormData.imageURLs.length>0 && listingFormData.imageURLs.map((url, index) => (
@@ -211,7 +218,7 @@ const CreateListing = () => {
               </div>
             ))
           }
-          <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg">Create Listing</button>  
+          <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg" disabled={loadingImage}>Create Listing</button>  
         </div>
 
         
