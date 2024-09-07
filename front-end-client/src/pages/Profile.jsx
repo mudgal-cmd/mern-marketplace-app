@@ -147,6 +147,16 @@ function Profile(){
   }
 
 
+  const handleShowListings = async() => {
+    try {
+      await axios.get(`/api/user/listings/${currentUser._id}`).
+        then(res => console.log(res.data)).
+        catch(err => console.log(err.response.data.message));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return(
     <div className="p-3 max-w-lg mx-auto">
@@ -185,6 +195,7 @@ function Profile(){
         <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition hover:animate-custom-bounce" onClick={handleUserSignOut}>Sign Out</span>
       </div>
       {error? <p className="text-red-600 mt-3">{error}</p> : ""}
+      <button className="text-green-700" onClick={handleShowListings}>Show Listings</button>
     </div>
   );
 

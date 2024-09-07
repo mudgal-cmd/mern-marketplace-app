@@ -31,7 +31,7 @@ export const GetListingsController = async (req, res, next) => {
 
   try{
     const listings = await Listing.find({createdBy:id});
-    return res.status(200).json({success: true, results:listings.length, data:listings});
+    return res.status(200).json({success: true, results:listings.length, listings});
   }
   catch(err){
     return next(err);
