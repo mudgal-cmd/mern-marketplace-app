@@ -8,6 +8,8 @@ import axios from "axios";
 
 import { app } from "../firebase.js";
 
+import { useNavigate } from "react-router-dom";
+
 // import { createListingStart, createListingSuccess, createListingFailure } from "../redux/listing/listingSlice.js";
 
 
@@ -43,6 +45,8 @@ const CreateListing = () => {
 
   const [listingFormError, setListingFormError] = useState(false);
 
+  const navigate = useNavigate();
+
   // const dispatch = useDispatch();
   
   const getListingImage = () => {
@@ -64,7 +68,7 @@ const CreateListing = () => {
 
         //directly using imageURLs : urls will just replace the imageURLs with the new/uploaded ones, and we don't want that. We'd like to retain the previous URLs as well and just add the new ones to the older imageURL array
 
-        setListingFormData({...listingFormData, imageURLs:listingFormData.imageURLs.concat(urls), createdBy: currentUser._id}); 
+        setListingFormData({...listingFormData, imageURLs:listingFormData.imageURLs.concat(urls)}); 
         
         //can't use push as it just modifies the existing imageURLs array, so React won't detect the changes and no re-renders will be triggered. On the other hand, concat promotes immutability as it returns a new array/ object reference for React to recognize it and trigger the re-renders.
 
@@ -80,8 +84,6 @@ const CreateListing = () => {
       
       setLoadingImage(false);
     }
-
-    else if (listingFormData.imageURLs.length === 0) setImageUploadError("Please upload at least 1 image.");
     else setImageUploadError("You can upload a max of 6 images");
 
     //can't modify the name at this point because, the onChange will fire only when the file to be uploaded is different from the current chosen file, and hence the file name won't change if we choose that same file over and over again, and we want to track every version of the uploaded file.
@@ -126,13 +128,17 @@ const CreateListing = () => {
   }
 
   const handleListingFormChange = (event) => {
+
     setImageUploadError(false);
+    setListingFormError(false);
+
     setListingFormData({...listingFormData, [event.target.name]: event.target.value});
     // console.log(event); 
   } // event handler function for the form data except the checkboxes.
 
   const handleFormCheckboxChange = (event) => {
     setListingFormError(false);
+    setImageUploadError(false);
     if(event.target.name === "rent" || event.target.name === "sell") setListingFormData({...listingFormData, listingType: event.target.name});
     
     else if (event.target.name === "offer" || event.target.name === "parking" || event.target.name === "furnished") setListingFormData({...listingFormData, [event.target.name]: event.target.checked});
@@ -160,25 +166,33 @@ const CreateListing = () => {
   const handleListingSubmit = async (event) => {
 
     // dispatch(createListingStart());
-    setFormLoading(true);
+
     event.preventDefault();
+    if(listingFormData.imageURLs.length<1) return setListingFormError("Please upload at least 1 image"); 
 
-    // console.log(listingFormData);
-    // console.log(currentUser);
+    if(+listingFormData.regularPrice < +listingFormData.discountPrice) return setListingFormError("Discounted price should be lower than the Regular Price"); //added the unary operator "+" to ensure that these values remain numerical.
 
-    await axios.post(`/api/listing/create-listing/${listingFormData.createdBy}`, listingFormData, {headers: {
-      "Content-Type": "application/json"
-    }}).then(res => {
-      console.log(res);
-      setFormLoading(false);
-      // dispatch(createListingSuccess(res.data));
-    })
-    .catch(err => {
-      console.log(err);
-      setListingFormError(err.response.data.message);
-      setFormLoading(false);
-    // dispatch(createListingFailure(err.response.data.message));
-  });
+      setFormLoading(true);
+  
+      // console.log(listingFormData);
+      // console.log(currentUser);
+  
+      await axios.post(`/api/listing/create-listing/`, {...listingFormData, createdBy:currentUser._id}, {headers: {
+        "Content-Type": "application/json"
+      }}).then(res => {
+        console.log(res);
+        setFormLoading(false);
+
+        navigate(`/listing/${res.data._id}`); // navigating the user to the page to show the recently created listing.
+
+        // dispatch(createListingSuccess(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+        setListingFormError(err.response.data.message);
+        setFormLoading(false);
+      // dispatch(createListingFailure(err.response.data.message));
+    });
 
   }
 
@@ -231,18 +245,19 @@ const CreateListing = () => {
               <input type="number" className="outline-none p-3 rounded-lg text-sm border border-gray-300 border-b-2 border-t-0 border-r-0 border-l-0" id="regularprice" name="regularPrice" required min={50} max={10000000} onChange={handleListingFormChange} value={listingFormData.regularPrice}/>
               <div className="flex flex-col">
                 <p>Regular Price</p>
-                <p className="text-xs text-center">(&#36; / Month)</p>
+                {listingFormData.listingType !=="sell" &&<p className="text-xs text-center">(&#36; / Month)</p>}
               </div>
 
             </div>
 
-            <div className="flex gap-2 items-center">
+            {listingFormData.offer && <div className="flex gap-2 items-center">
               <input type="number" className="outline-none p-3 rounded-lg text-sm border border-gray-300 border-b-2 border-t-0 border-r-0 border-l-0" id="discprice" name="discountPrice" required min={50} max={10000000} onChange={handleListingFormChange} value={listingFormData.discountPrice}/>
               <div className="flex flex-col items-center">
                 <p>Discounted Price</p>
-                <span className="text-xs text-center">(&#36; / Month)</span>
+                {listingFormData.listingType !== "sell" &&<span className="text-xs text-center">(&#36; / Month)</span>}
               </div>
-            </div>
+            </div>} 
+            {/* If offer is not there, hiding the discounted price. */}
 
           </div>
         </div>
@@ -261,14 +276,14 @@ const CreateListing = () => {
               <div key={url} className="flex justify-between p-3 border items-center">
 
                 <img src={url} alt="listing image" className="w-20 h-20 object-cover rounded-lg border" />
-
+                                      
                 <button type="button" onClick={()=>deleteImage(index)} className="p-3 text-red-700 uppercase rounded-lg hover:opacity-75">Delete</button>
               
               </div>
             ))
           }
-          <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg" disabled={loadingImage || formLoading} type="submit">{formLoading? "Submitting...": "Create Listing"}</button>  
-      {listingFormError && <p className="text-red-700 text-sm">Error: {listingFormError}</p>}
+          <button className="bg-slate-700 p-3 rounded-lg text-white uppercase hover:bg-white hover:text-slate-700 border hover:border-slate-700 disabled:opacity-80 transition hover:shadow-lg" disabled={loadingImage || formLoading || listingFormError || imageUploadError} type="submit">{formLoading? "Submitting...": "Create Listing"}</button>  
+            {listingFormError && <p className="text-red-700 text-sm">Error: {listingFormError}</p>}
         </div>
 
         
