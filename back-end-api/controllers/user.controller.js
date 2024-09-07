@@ -1,6 +1,7 @@
 import User from "../models/user.model.js"; //need to specify the file extension in case of node
 import { errorHandler } from "../utils/error.js";
 import { hashPassword } from "../utils/helper.js";
+import Listing from "../models/listings.model.js";
 
 export const defaultUserController = (req, res) =>{
   res.status(200).json({message:"Hello from the server...."})

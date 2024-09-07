@@ -163,6 +163,32 @@ function Profile(){
     }
   }
 
+  const handleDeleteListing = async (listingId) => {
+    try {
+      const response = await fetch(`/api/listing/delete-listing/${listingId}`, {method: 'DELETE', headers:{
+        "Content-Type" : "application/json"
+      }});
+
+      const data = await response.json();
+
+      if(data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      const filteredListings = userListings.filter(listing => listing._id !== listingId);
+
+      // setUserListings((listings) => listings.filter(listing => listingId!==listing._id));
+
+      setUserListings(filteredListings);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log(userListings);
+  }
+
 
   return(
     <div className="p-3 max-w-lg mx-auto">
@@ -207,7 +233,7 @@ function Profile(){
         {userListings && userListings.length>0 && 
         <div className="gap-4 flex flex-col">
           <h1 className="text-2xl font-semibold text-center mt-7">Your Listings</h1>
-          {userListings.map(listing => (
+          {userListings.map((listing) => (
           <div key={listing._id} className="border flex items-center justify-between rounded-lg p-3 gap-4">
             <Link to={`listings/${listing._id}`}>
               <img src={listing.imageURLs[0]} alt="listing cover" className="h-16 w-16 object-contain"/>
@@ -216,7 +242,7 @@ function Profile(){
               <p>{listing.name}</p>
             </Link>
             <div className="flex flex-col">
-              <button className="text-red-700 uppercase">Delete</button>
+              <button className="text-red-700 uppercase" onClick={()=>handleDeleteListing(listing._id)}>Delete</button>
               <button className="text-green-700 uppercase">Edit</button>
             </div>
           </div>

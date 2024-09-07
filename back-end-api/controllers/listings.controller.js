@@ -24,6 +24,14 @@ export const deleteListingController = async (req, res, next) => {
 
   const {id} = req.params;
 
+  const listing = await Listing.findById(id);
+
+  console.log(typeof listing._id);
+
+  if(!listing) return next(errorHandler(404, "Listing not found"));
+  
+  if(req.user.id !== listing.createdBy) return next(errorHandler(401, "You can delete a listing from your account only"));
+
   try{
     
     await Listing.findByIdAndDelete(id, {new: true});
