@@ -1,7 +1,7 @@
 import express from "express";
-import {defaultUserController, deleteUserController, updateUserController} from "../controllers/user.controller.js"
+import {defaultUserController, deleteUserController, updateUserController, GetListingsController} from "../controllers/user.controller.js"
 import {verifyUserToken} from "../utils/verifyUser.js";
-import { GetListingsController } from "../controllers/listings.controller.js";
+
 const router = express.Router();
 
 router.route("/").get(defaultUserController );

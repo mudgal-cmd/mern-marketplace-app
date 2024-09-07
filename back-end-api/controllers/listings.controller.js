@@ -20,21 +20,17 @@ export const CreateListingController = async (req, res, next) => {
 
 }
 
-export const GetListingsController = async (req, res, next) => {
+export const deleteListingController = async (req, res, next) => {
 
   const {id} = req.params;
-  
-  console.log(req.params);
-  console.log(id);
-
-  if(id !== req.user.id) return next(errorHandler(401, "You are not authorized to fetch the listings"));
 
   try{
-    const listings = await Listing.find({createdBy:id});
-    return res.status(200).json({success: true, results:listings.length, listings});
+    
+    await Listing.findByIdAndDelete(id, {new: true});
+
+    res.status(200).json({success: true, message: "Listing deleted"});
+
   }
-  catch(err){
-    return next(err);
-  }
+  catch(error){next(error);}
 
 }
