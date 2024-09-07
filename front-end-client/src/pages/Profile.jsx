@@ -3,7 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { getStorage, uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase.js";
 import axios from "axios";
-import {updateUserStart, updateUserSuccess, updateUserFailure,
+import {
+  updateUserStart, updateUserSuccess, updateUserFailure,
   deleteUserStart, deleteUserSuccess, deleteUserFailure,
   signOutStart, signOutSuccess, signOutFailure
 } from "../redux/user/userSlice.js";
@@ -23,6 +24,8 @@ function Profile(){
   const [updateFormData, setUpdateFormData] = useState({}); // state to manage the update profile form data
 
   const [fileUploadError, setFileUploadError] = useState(false);
+
+  const [userListings, setUserListings] = useState([]);
 
   const fileRef = useRef(null); //using the "useRef" hook to provide reference of the image input to the profile picture so that
   //when a user clicks on the profile pic they're prompted to change the profile image
@@ -150,7 +153,10 @@ function Profile(){
   const handleShowListings = async() => {
     try {
       await axios.get(`/api/user/listings/${currentUser._id}`).
-        then(res => console.log(res.data)).
+        then(res => {
+          console.log(res.data);
+          setUserListings(res.data.listings);
+        }).
         catch(err => console.log(err.response.data.message));
     } catch (error) {
       console.log(error);
@@ -194,8 +200,29 @@ function Profile(){
         <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition hover:animate-custom-bounce" onClick={handleDeleteUser}>Delete Account</span>
         <span className="text-red-700 hover:cursor-pointer hover:opacity-80 transition hover:animate-custom-bounce" onClick={handleUserSignOut}>Sign Out</span>
       </div>
+      <button className="text-green-700 w-full mt-5" onClick={handleShowListings}>Show Listings</button>
       {error? <p className="text-red-600 mt-3">{error}</p> : ""}
-      <button className="text-green-700" onClick={handleShowListings}>Show Listings</button>
+        
+
+        {userListings && userListings.length>0 && 
+        <div className="gap-4 flex flex-col">
+          <h1 className="text-2xl font-semibold text-center mt-7">Your Listings</h1>
+          {userListings.map(listing => (
+          <div key={listing._id} className="border flex items-center justify-between rounded-lg p-3 gap-4">
+            <Link to={`listings/${listing._id}`}>
+              <img src={listing.imageURLs[0]} alt="listing cover" className="h-16 w-16 object-contain"/>
+            </Link>
+            <Link className="text-slate-700 font-semibold flex-1 hover:underline truncate" to={`/listings/${listing._id}`}>
+              <p>{listing.name}</p>
+            </Link>
+            <div className="flex flex-col">
+              <button className="text-red-700 uppercase">Delete</button>
+              <button className="text-green-700 uppercase">Edit</button>
+            </div>
+          </div>
+        ))}
+        </div>}
+
     </div>
   );
 

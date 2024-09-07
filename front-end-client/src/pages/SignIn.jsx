@@ -35,15 +35,28 @@ function SignIn() {
     // console.log(loadingEffect, error);
   };
   // console.log(formData);
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
     // setLoadingEffect(true);
 
     // fetch("https://fakestoreapi.com/products/1").then(res => res.json()).then(json => console.log(json));
-
+    console.log(formData);
     dispatch(signInStart());
-    await axios
-      .post("/api/auth/signin", JSON.stringify(formData), {
+    // fetch("/api/auth/signin", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(formData)
+    // }).then((res) => res.json()).then(data => {
+    //   console.log(data);
+    //   dispatch(signInSuccess(data));
+    // })
+    // .catch(error => console.log(error));
+
+
+
+      await axios.post("/api/auth/signin", JSON.stringify(formData), {
         headers: {
           "Content-type": "application/json",
         },
@@ -67,6 +80,7 @@ function SignIn() {
         // setError(err.response.data.message);
         // console.log("I am in err of axios");
         // showErrorFlag =true;
+        console.log(err);
         dispatch(signInFailure(err.response.data.message));
         // };
         if (!err.response.data.success) {
