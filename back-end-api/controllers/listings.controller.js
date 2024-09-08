@@ -42,3 +42,40 @@ export const deleteListingController = async (req, res, next) => {
   catch(error){next(error);}
 
 }
+
+export const updateListingController = async (req, res, next) => {
+
+  const {id} = req.params;
+
+  const listingToUpdate = await Listing.findById(id);
+
+  if(!listingToUpdate) return next(errorHandler(404, "Listing not found"));
+
+  if(req.user.id !== listingToUpdate.createdBy) return next(errorHandler(401, "You can update a listing from your account only."));
+
+  try {
+    
+    const updatedListing = await Listing.findByIdAndUpdate(id, {
+      $set: {
+        name: req.body.name,
+        description: req.body.description, 
+        address: req.body.address, 
+        regularPrice: req.body.regularPrice,
+        discountPrice: req.body.discountPrice,
+        bathrooms: req.body.bathrooms, 
+        bedrooms: req.body.bedrooms,
+        furnished: req.body.furnished,
+        parking: req.body.parking,
+        listingType: req.body.listingType,
+        offer: req.body.offer,
+        imageURLs: req.body.imageURLs
+      }
+    }, {new: true});
+
+    res.status(200).json(updatedListing);
+
+  } catch (error) {
+    next(error);
+  }
+
+}
