@@ -243,7 +243,9 @@ function Profile(){
             </Link>
             <div className="flex flex-col">
               <button className="text-red-700 uppercase" onClick={()=>handleDeleteListing(listing._id)}>Delete</button>
-              <button className="text-green-700 uppercase">Edit</button>
+              <Link to={"/update-listing"}>
+                <button className="text-green-700 uppercase">Edit</button>
+              </Link>
             </div>
           </div>
         ))}
