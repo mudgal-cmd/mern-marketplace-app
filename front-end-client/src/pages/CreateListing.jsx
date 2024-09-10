@@ -11,8 +11,7 @@ import { app } from "../firebase.js";
 import { useNavigate } from "react-router-dom";
 
 // import { createListingStart, createListingSuccess, createListingFailure } from "../redux/listing/listingSlice.js";
-
-
+  
 const CreateListing = () => {
 
   const [listingFormData, setListingFormData] = useState({

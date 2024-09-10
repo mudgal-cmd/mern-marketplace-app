@@ -26,7 +26,7 @@ function App() {
         <Route element={<PrivateRoute/>}>
           <Route path= "/profile" element={<Profile/>}></Route>
           <Route path="/create-listing" element = {<CreateListing />} /> 
-          <Route path="/update-listing" element= {<UpdateListing />}/>
+          <Route path="/update-listing/:listingId" element= {<UpdateListing />}/>
         </Route>
           {/* Users can create a listing only when logged in */}
       </Routes>

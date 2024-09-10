@@ -10,6 +10,6 @@ router.route("/updateUser/:id").put(verifyUserToken, updateUserController); // c
 
 router.route("/deleteUser/:id").delete(verifyUserToken, deleteUserController);
 
-router.route("/listings/:id").get(verifyUserToken, GetListingsController);
+router.route("/listings/:id").get(verifyUserToken, GetListingsController); //here :id is the user id that created the listings.
 
 export default router;
