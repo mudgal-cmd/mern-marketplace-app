@@ -48,15 +48,23 @@ const UpdateListing = () => {
 
   const [listingFormError, setListingFormError] = useState(false);
 
+  // const [currentListing, setCurrentListing] = useState({});
+
   const navigate = useNavigate();
 
   // const dispatch = useDispatch();
 
   useEffect(()=> {
 
-    (function fetchListing(){
+    (async function fetchListing(){
+      const response = await fetch(`/api/listing/get-listing/${param.listingId}`, {method: "GET"}).then(res => res.json());
 
-    })
+      // console.log(response);
+      // console.log(typeof response);
+
+      setListingFormData(response);
+
+    })();// created the IIFE for the side effect of fetching a particular listing via the get-listing API.
 
   }, []);
   
@@ -173,7 +181,7 @@ const UpdateListing = () => {
     setListingFormData({...listingFormData, imageURLs: filteredImageUrls});
 
   }
-  console.log(listingFormData);
+  // console.log(listingFormData);
   const handleListingSubmit = async (event) => {
 
     // dispatch(createListingStart());
@@ -188,7 +196,7 @@ const UpdateListing = () => {
       // console.log(listingFormData);
       // console.log(currentUser);
   
-      await axios.post(`/api/listing/create-listing/`, {...listingFormData, createdBy:currentUser._id}, {headers: {
+      await axios.put(`/api/listing/update-listing/${listingFormData._id}`, {...listingFormData, createdBy:currentUser._id}, {headers: {
         "Content-Type": "application/json"
       }}).then(res => {
         console.log(res);
