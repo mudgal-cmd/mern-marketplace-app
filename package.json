@@ -21,7 +21,6 @@
     "mongoose": "^8.3.4",
     "nodemon": "^3.1.0",
     "react-redux": "^9.1.2",
-    "redux-persist": "^6.0.0",
-    "swiper": "^11.1.12"
+    "redux-persist": "^6.0.0"
   }
 }

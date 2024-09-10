@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { Navigation } from "swiper/modules";
+import "swiper/css/bundle";
 
 const Listing = () => {
+
+  SwiperCore.use([Navigation]); // initialized Swiper.
 
   const param = useParams();
 
@@ -40,8 +46,18 @@ const Listing = () => {
   <main>
     {loadingPage && <p className="text-center my-7 text-2xl">Loading...</p>}
     {error && <h1 className="text-2xl font-semibold text-center my-7">Oops! Something went wrong. We are working on it!</h1>}
-    {listing && !error && !loadingPage && (
-      <h1>{listingData.name}</h1>
+    {listingData && !error && !loadingPage && (
+      <div>
+        <Swiper navigation>
+          {listingData.imageURLs.map(
+            (url) => (
+              <SwiperSlide key={url}>
+                <div className="h-[500px]" style={{background:`url(${url}) center no-repeat`, backgroundSize : "cover"}}></div>
+              </SwiperSlide>
+            )
+          )}
+        </Swiper>
+      </div>
     )}
   </main>
   );
