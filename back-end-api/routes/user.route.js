@@ -1,10 +1,10 @@
 import express from "express";
-import {defaultUserController, deleteUserController, updateUserController, GetListingsController} from "../controllers/user.controller.js"
+import {fetchUserController, deleteUserController, updateUserController, GetListingsController} from "../controllers/user.controller.js"
 import {verifyUserToken} from "../utils/verifyUser.js";
 
 const router = express.Router();
 
-router.route("/").get(defaultUserController );
+router.route("/get-user/:id").get(verifyUserToken, fetchUserController );
 
 router.route("/updateUser/:id").put(verifyUserToken, updateUserController); // chaining the MWs, verifying the user token before updating the user.
 

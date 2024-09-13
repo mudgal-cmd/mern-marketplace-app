@@ -2,6 +2,8 @@ export const errorHandler = (statusCode, message) =>{
   
   const error = new Error ();
 
+  console.log("error from error handler");
+
   error.statusCode = statusCode;
 
   error.message = message;

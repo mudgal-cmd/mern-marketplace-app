@@ -3,8 +3,27 @@ import { errorHandler } from "../utils/error.js";
 import { hashPassword } from "../utils/helper.js";
 import Listing from "../models/listings.model.js";
 
-export const defaultUserController = (req, res) =>{
-  res.status(200).json({message:"Hello from the server...."})
+export const fetchUserController = async (req, res, next) =>{
+  
+  try{
+    const {id} = req.params;
+
+    const landlordUser = await User.findById(id);
+
+    if(!landlordUser) {
+      console.log("!landlord");
+      return next(errorHandler(404, "Landlord details not found"))
+    };
+  
+    const {password, ...rest} = landlordUser._doc;
+  
+    res.status(200).json(rest);
+  }
+  catch(error){
+    console.log("error in catch");
+    next(error);
+  }
+
 }
 
 export const updateUserController = async (req, res, next) => {

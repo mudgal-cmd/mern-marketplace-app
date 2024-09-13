@@ -14,12 +14,18 @@ import {
   FaShare
 
 } from "react-icons/fa";
+import {useSelector} from "react-redux";
+import ContactLandLord from "../components/ContactLandLord";
 
 const Listing = () => {
 
   SwiperCore.use([Navigation]); // initialized Swiper.
 
   const param = useParams();
+
+  const {currentUser} = useSelector((state) => state.user);
+
+  // console.log(currentUser);
 
   const [listingData, setListingData] = useState({});
 
@@ -28,6 +34,8 @@ const Listing = () => {
   const [error, setError] = useState(false);
 
   const [copied, setCopied] = useState(false);
+
+  const [contact, setContact] = useState(false);
 
   useEffect(() => {
     (async function(){
@@ -122,6 +130,14 @@ const Listing = () => {
                 {listingData.furnished ? "Furnished": "Unfurnished"}
               </li>
             </ul>
+          {currentUser && !contact&& currentUser._id !== listingData.createdBy && <div className="mt-2">
+            {/* show the button only when a user is logged in, and this user is different from the one that created the current listing */}
+            {/* <textarea className="w-full p-3 outline-blue-600 rounded-lg my-4" placeholder="Write a message here..."/> */}
+            <button className="w-full bg-slate-700 text-white p-3 rounded-lg hover:bg-white hover:text-slate-700 border-2 hover:border-slate-700 uppercase hover:font-semibold transition" 
+            onClick={()=> setContact(true)}>Contact Landlord</button>
+            {/* We also want to hide the button when contact landlord is clicked */}
+          </div>}
+          {contact && <ContactLandLord listing = {listingData}/>}
         </div>
       </div>
     )}
