@@ -12,3 +12,4 @@ export const errorHandler = (statusCode, message) =>{
 
 }
 // This custom error handler function will be used to handle special errors like - "Password is not long enough".
+
