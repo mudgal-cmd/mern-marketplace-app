@@ -1,5 +1,5 @@
 import express from "express";
-import { CreateListingController, deleteListingController, updateListingController, fetchListingByIdController } from "../controllers/listings.controller.js";
+import { CreateListingController, deleteListingController, updateListingController, fetchListingByIdController, getListingsController } from "../controllers/listings.controller.js";
 import { verifyUserToken } from "../utils/verifyUser.js";
 
 const router = express.Router();
@@ -11,5 +11,7 @@ router.route("/get-listing/:id").get(fetchListingByIdController); // we do not n
 router.route("/delete-listing/:id").delete(verifyUserToken, deleteListingController);
 
 router.route("/update-listing/:id").put(verifyUserToken, updateListingController);
+
+router.route("get-listings").get(getListingsController);
 
 export default router;

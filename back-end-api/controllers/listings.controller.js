@@ -98,3 +98,7 @@ export const fetchListingByIdController = async (req, res, next) => {
   
 
 }
+
+export const getListingsController = () => {
+  
+}
