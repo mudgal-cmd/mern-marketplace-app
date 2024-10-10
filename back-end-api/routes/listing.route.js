@@ -12,6 +12,6 @@ router.route("/delete-listing/:id").delete(verifyUserToken, deleteListingControl
 
 router.route("/update-listing/:id").put(verifyUserToken, updateListingController);
 
-router.route("/get").get(getListingsController);
+router.route("/search").get(getListingsController);
 
 export default router;

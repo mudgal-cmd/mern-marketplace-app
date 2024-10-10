@@ -4,9 +4,28 @@ import { useSelector } from "react-redux";
 import {Routes, Route} from "react-router-dom";
 import SignIn from "../pages/SignIn";
 import {logo} from "../assets/index.js";
+import { useState } from "react";
+import axios from "axios";
 
 function Header() {
   const { currentUser } = useSelector((state) => state.user);
+
+  const [searchData, setSearchData] = useState({});
+
+  const [searchTerm, setSearchTerm] = useState(undefined);
+
+  const getSearchTerm = (event) => {
+    console.log(event.target.value);
+    setSearchTerm(event.target.value);
+  }
+  
+  const getSearchedListings = async () => {
+
+    //handling the empty search term use case at the backend in api
+    await axios.get(`/api/listing/search?searchTerm=${searchTerm}`, {headers:{"Content-Type":"application/json"}})
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+  }
 
   // console.log(currentUser);
 
@@ -32,10 +51,10 @@ function Header() {
           <input
             type="text"
             placeholder="Search..."
-            className="bg-transparent focus:outline-none w-24 sm:w-64"
+            className="bg-transparent focus:outline-none w-24 sm:w-64" onChange={(e)=>getSearchTerm(e)}
           />
           {/* for smaller viewport the search bar would be small and for the larger wones it would be bigger, i.e., w-64 */}
-          <FaSearch className="text-slate-600" />
+          <FaSearch className="text-slate-600" onClick={getSearchedListings}/>
         </form>
 
         <ul className="flex gap-4 ">
