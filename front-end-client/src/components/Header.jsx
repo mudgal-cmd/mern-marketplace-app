@@ -4,30 +4,62 @@ import { useSelector } from "react-redux";
 import {Routes, Route} from "react-router-dom";
 import SignIn from "../pages/SignIn";
 import {logo} from "../assets/index.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Header() {
+
+  const navigate = useNavigate();
+
   const { currentUser } = useSelector((state) => state.user);
 
   const [searchData, setSearchData] = useState({});
 
-  const [searchTerm, setSearchTerm] = useState(undefined);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // const [queryParamsState, setQueryParams] = useState("");
 
   const getSearchTerm = (event) => {
     console.log(event.target.value);
     setSearchTerm(event.target.value);
   }
   
-  const getSearchedListings = async () => {
+  const getSearchedListings =  (event) => {
+
+    event.preventDefault();
+
+    const params = new URLSearchParams(window.location.search); // URLSearchParams = provides read and write access to the query of a url
+
+    console.log(window.location.search);
+    console.log(location.search);
+
+    params.set("searchTerm", searchTerm);
+
+    console.log(params.toString());//converting the URLSearchparams array to a string, Ex: searchTerm=meadow
+
+    const queryParams = params.toString(); // converting the urlparams into a string
+
+    // setQueryParams(queryParams);
+
+    navigate(`/search?${queryParams}`);
 
     //handling the empty search term use case at the backend in api
-    await axios.get(`/api/listing/search?searchTerm=${searchTerm}`, {headers:{"Content-Type":"application/json"}})
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+    // await axios.get(`/api/listing/get?searchTerm=${searchTerm}`, {headers:{"Content-Type":"application/json"}})
+    // .then(res => console.log(res))
+    // .catch(err => console.log(err));
   }
 
   // console.log(currentUser);
+
+  useEffect((e)=>{
+    // console.log(queryParamsState);
+    const params = new URLSearchParams(location.search);
+    const searchTermFromURL = params.get("searchTerm");
+    if(searchTermFromURL){
+      setSearchTerm(searchTermFromURL);
+    }
+
+  },[location.search]);
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -46,15 +78,17 @@ function Header() {
             <span className="text-slate-700">UTOPIA</span>
           </h1>
         </Link>
-        <form className="bg-slate-100 p-3 rounded-lg flex items-center">
+        <form className="bg-slate-100 p-3 rounded-lg flex items-center" onSubmit={getSearchedListings} onKeyDown={(e)=>e.key==="Enter"&&getSearchedListings}>
           {/* Removing the outline from the search bar and making it transparent, w-24 to set the width of 24rem to the bar */}
           <input
             type="text"
             placeholder="Search..."
-            className="bg-transparent focus:outline-none w-24 sm:w-64" onChange={(e)=>getSearchTerm(e)}
+            className="bg-transparent focus:outline-none w-24 sm:w-64" onChange={getSearchTerm} value={searchTerm}
           />
           {/* for smaller viewport the search bar would be small and for the larger wones it would be bigger, i.e., w-64 */}
-          <FaSearch className="text-slate-600" onClick={getSearchedListings}/>
+          <button type="submit">
+            <FaSearch className="text-slate-600"/>
+          </button>
         </form>
 
         <ul className="flex gap-4 ">
