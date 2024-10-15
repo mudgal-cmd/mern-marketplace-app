@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
+import SearchComponent from "./pages/Search";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         </Route>
           {/* Users can create a listing only when logged in */}
         <Route path="/listing/:listingId" element = {<Listing />} />
+        <Route path="/search" element = {<SearchComponent />}/>
       </Routes>
     </Router>
   );
