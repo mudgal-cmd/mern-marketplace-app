@@ -1,3 +1,5 @@
+import { ShowListing } from "../components/ShowListing";
+
 const SearchComponent = () => {
 
   return (
@@ -57,6 +59,7 @@ const SearchComponent = () => {
 
       <div className=""> {/*for the search results */}
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">Search Results:</h1>
+        <ShowListing />
       </div>
     </div>
   );
