@@ -1,7 +1,7 @@
-export const ShowListing = () => {
+export const ShowListing = ({listings}) => {
   return (
-    <div>
-      Listing
+    <div className="border border-slate-500">
+      
     </div>
   );
 }
