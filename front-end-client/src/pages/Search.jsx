@@ -1,6 +1,25 @@
 import { ShowListing } from "../components/ShowListing";
 
+import {useState} from "react";
+
 const SearchComponent = () => {
+
+  const [listings, setListings] = useState({});
+
+  const [searchFilterData, setSearchFilterData] = useState({
+    searchterm: "",
+    type: "all",
+    parking: false,
+    furnished: false,
+    offer: false,
+    sort: "createdAt",
+    sort_order: "desc"
+
+  }); // state to manage the search filters from the sidebar
+
+  const handleSearchFilterOnChange = (event) => {
+
+  }
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -33,7 +52,7 @@ const SearchComponent = () => {
           <div className="flex gap-3 flex-wrap items-center">
             <label className="font-semibold">Amenities:</label>
             <div className="flex gap-2">
-              <input type="checkbox" id="parking" className="w-4"/>
+              <input type="checkbox" id="parking" name="parking" className="w-4"/>
               <span>Parking</span>
             </div>
             <div className="flex gap-2">
