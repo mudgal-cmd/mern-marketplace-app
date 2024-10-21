@@ -1,6 +1,6 @@
 import { ShowListing } from "../components/ShowListing";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const SearchComponent = () => {
   const [listings, setListings] = useState({});
 
   const [searchFilterData, setSearchFilterData] = useState({
-    searchterm: "",
+    searchTerm: "",
     listingType: "all",
     parking: false,
     furnished: false,
@@ -23,9 +23,9 @@ const SearchComponent = () => {
 
   const handleSearchFilterOnChange = (event) => {
     
-    if(event.target.name === "searchterm") {
+    if(event.target.name === "searchTerm") {
 
-      setSearchFilterData({...searchFilterData, "searchterm": event.target.value});
+      setSearchFilterData({...searchFilterData, "searchTerm": event.target.value});
     };
 
     if( event.target.name === "offer" || event.target.name === "parking" || event.target.name === "furnished"){
@@ -44,13 +44,13 @@ const SearchComponent = () => {
     }
   }
 
-  console.log(searchFilterData);
+  // console.log(searchFilterData);
 
 
   const handleSearchFilterSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
-    urlParams.set("searchterm", searchFilterData.searchterm);
+    urlParams.set("searchTerm", searchFilterData.searchTerm);
     urlParams.set("listingType", searchFilterData.listingType);
     urlParams.set("parking", searchFilterData.parking? true: false);
     urlParams.set("furnished", searchFilterData.furnished? true: false);
@@ -59,9 +59,22 @@ const SearchComponent = () => {
     urlParams.set("sortOrder", searchFilterData.sortOrder);
 
     const urlSearchQuery = urlParams.toString(); //converted the urlParams object into the query paramter string 
-    console.log(urlSearchQuery);
+    // console.log(urlSearchQuery);
     navigate(`/search?${urlSearchQuery}`); // navigating the user to the page
   }
+
+  // useEffect(()=>{
+  //   const params = new URLSearchParams(location.search);
+
+  //   // const queryParams = params.get();
+  //   // console.log(params.size);
+
+  //   for (let key in searchFilterData){
+  //     let value = params.get(`${key}`);
+  //     console.log(value);
+  //     setSearchFilterData({...searchFilterData, [key]:value});
+  //   }
+  // }, location.search);
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -69,7 +82,7 @@ const SearchComponent = () => {
         <form className="flex flex-col gap-8" onSubmit={handleSearchFilterSubmit}>
           <div className="flex items-center gap-4">
             <label className="whitespace-nowrap font-semibold">Search Term:</label>
-            <input type="text" id="searchterm" name="searchterm" placeholder="Start searching here..." className="p-3 rounded-lg border w-full" onChange={handleSearchFilterOnChange} value={searchFilterData.searchterm}/>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Start searching here..." className="p-3 rounded-lg border w-full" onChange={handleSearchFilterOnChange} value={searchFilterData.searchTerm}/>
           </div>
           <div className="flex gap-3 flex-wrap items-center">
             <label className="font-semibold">Type:</label>

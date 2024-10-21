@@ -13,7 +13,7 @@ function Header() {
 
   const { currentUser } = useSelector((state) => state.user);
 
-  const [searchData, setSearchData] = useState({});
+  // const [searchData, setSearchData] = useState({});
 
   const [searchTerm, setSearchTerm] = useState("");
 
