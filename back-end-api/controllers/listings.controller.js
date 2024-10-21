@@ -150,7 +150,7 @@ export const getListingsController = async (req, res, next) => {
       }).sort({[sortBy]: sortOrder }) // sortBy price in desc order (where sortOrder is desc)
       .limit(limit)
       .skip(startPage); // no of documents to skip. If for the first page, limit is 9, and startPage is 0, then in the next page startPage will be 9, as we'd want the next 9 documents on that page.
-  
+      // console.log(listings);
     if(!listings){
       return res.status(201).json("No listings found");
     }

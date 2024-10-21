@@ -8,7 +8,11 @@ const SearchComponent = () => {
 
   const navigate = useNavigate();
 
-  const [listings, setListings] = useState({});
+  const [listings, setListings] = useState([]);
+
+  console.log(listings);
+
+  const [loading, setLoading] = useState(false); // for the loading effect
 
   const [searchFilterData, setSearchFilterData] = useState({
     searchTerm: "", //this searchTerm key needs to be same as specified in the header component, so that if a user updates a searchTerm anywhere - either using the search bar or the filters section, the value should remain consistant throughout.
@@ -47,7 +51,7 @@ const SearchComponent = () => {
   // console.log(searchFilterData);
 
 
-  const handleSearchFilterSubmit = (e) => {
+  const handleSearchFilterSubmit = async (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
     urlParams.set("searchTerm", searchFilterData.searchTerm);
@@ -60,21 +64,32 @@ const SearchComponent = () => {
 
     const urlSearchQuery = urlParams.toString(); //converted the urlParams object into the query paramter string 
     // console.log(urlSearchQuery);
+
+    // await fetch(`api/listing/get?${urlSearchQuery}`,{method: "GET"}, {headers: {
+    //   "Content-Type": "application/json"
+    // }})
+    // .then(res => {
+    //   if(!res.ok){
+    //     throw new Error("HTTP error!", res.status);
+    //   }
+    //   else{
+    //     return res.json();
+    //   }
+    // })
+    // .then(data => {
+    //   // setListings(data);
+    //   console.log(data);
+    //   setListings(data);
+    // })
+    // .catch(err => console.log(err));
+
     navigate(`/search?${urlSearchQuery}`); // navigating the user to the page
   }
 
   useEffect(()=>{
     const params = new URLSearchParams(location.search);
 
-    // const queryParams = params.get();
-    // console.log(params.size);
-
-    // for (let key in searchFilterData){
-    //   let value = params.get(`${key}`);
-    //   console.log(key);
-    //   console.log(value);
-    //   setSearchFilterData({...searchFilterData, [key]:value});
-    // }
+    // we could've used a loop as well, and to do so, we need to create a shallow copy of the state, ex: const updatedListingsData = searchFilterListings; and then update the updatedLisitingsData using the loop and pass this new piece of info int the setter function.
 
     const searchTermFromUrl = params.get("searchTerm");
     const listingTypeFromUrl = params.get("listingType");
@@ -91,13 +106,24 @@ const SearchComponent = () => {
         parking: parkingFromUrl === "true"? true: false,
         furnished: furnishedFromUrl === "true"? true: false,
         offer: offerFromUrl === "true"? true: false,
-        sortBy: sortByFromUrl,
-        sortOrder: sortOrderFromUrl
+        sortBy: sortByFromUrl?sortByFromUrl:"createdAt",
+        sortOrder: sortOrderFromUrl? sortOrderFromUrl:"desc"
       });
     }
 
-  }, [location.search]);
+    (async function (){
+      setLoading(true);
+      const searchQuery = params.toString();
+      const response = await fetch (`/api/listing/get?${searchQuery}`);
+      const data = await response.json();
 
+      console.log(data);
+      setListings(data);
+      
+    })();
+
+  }, [location.search]);
+  // console.log(listings);
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen"> {/* for the left side or the search part/filters */}
@@ -155,7 +181,10 @@ const SearchComponent = () => {
 
       <div className=""> {/*for the search results */}
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">Search Results:</h1>
-        <ShowListing listings = {listings} />
+        {/* {listings.map(listing => (
+          <ShowListing listing = {listing} key={listing.name}/>
+        ))} */}
+        
       </div>
     </div>
   );
