@@ -11,7 +11,7 @@ const SearchComponent = () => {
   const [listings, setListings] = useState({});
 
   const [searchFilterData, setSearchFilterData] = useState({
-    searchTerm: "",
+    searchTerm: "", //this searchTerm key needs to be same as specified in the header component, so that if a user updates a searchTerm anywhere - either using the search bar or the filters section, the value should remain consistant throughout.
     listingType: "all",
     parking: false,
     furnished: false,
@@ -63,18 +63,40 @@ const SearchComponent = () => {
     navigate(`/search?${urlSearchQuery}`); // navigating the user to the page
   }
 
-  // useEffect(()=>{
-  //   const params = new URLSearchParams(location.search);
+  useEffect(()=>{
+    const params = new URLSearchParams(location.search);
 
-  //   // const queryParams = params.get();
-  //   // console.log(params.size);
+    // const queryParams = params.get();
+    // console.log(params.size);
 
-  //   for (let key in searchFilterData){
-  //     let value = params.get(`${key}`);
-  //     console.log(value);
-  //     setSearchFilterData({...searchFilterData, [key]:value});
-  //   }
-  // }, location.search);
+    // for (let key in searchFilterData){
+    //   let value = params.get(`${key}`);
+    //   console.log(key);
+    //   console.log(value);
+    //   setSearchFilterData({...searchFilterData, [key]:value});
+    // }
+
+    const searchTermFromUrl = params.get("searchTerm");
+    const listingTypeFromUrl = params.get("listingType");
+    const parkingFromUrl = params.get("parking");
+    const furnishedFromUrl = params.get("furnished");
+    const offerFromUrl = params.get("offer");
+    const sortByFromUrl = params.get("sortBy");
+    const sortOrderFromUrl = params.get("sortOrder");
+
+    if(searchTermFromUrl || listingTypeFromUrl || parkingFromUrl || furnishedFromUrl || offerFromUrl || sortByFromUrl || sortOrderFromUrl){
+      setSearchFilterData({
+        searchTerm: searchTermFromUrl,
+        listingType: listingTypeFromUrl,
+        parking: parkingFromUrl === "true"? true: false,
+        furnished: furnishedFromUrl === "true"? true: false,
+        offer: offerFromUrl === "true"? true: false,
+        sortBy: sortByFromUrl,
+        sortOrder: sortOrderFromUrl
+      });
+    }
+
+  }, [location.search]);
 
   return (
     <div className="flex flex-col md:flex-row">
