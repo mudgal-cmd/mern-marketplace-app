@@ -182,13 +182,13 @@ const SearchComponent = () => {
 
       <div className="flex-1"> {/*for the search results */}
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">Search Results:</h1>
-      <div className="p-7 flex flex-wrap w-full">
+      <div className="p-7 flex flex-wrap gap-4 justify-center">
 
         {!loading && listings.length===0 && (
           <p className="text-slate-700 text-xl">No Listings Found!</p>
         )}
         {loading && (
-          <p className="text-xl text-slate-700 text-center">
+          <p className="text-xl text-slate-700 text-center w-full">
             Loading....
           </p>
         )}
