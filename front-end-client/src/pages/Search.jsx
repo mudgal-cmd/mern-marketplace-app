@@ -119,8 +119,9 @@ const SearchComponent = () => {
 
       console.log(data);
       setListings(data);
+      setLoading(false);
       
-    })();
+    })(); // to make an API call whenever a filter is changed by the user.
 
   }, [location.search]);
   // console.log(listings);
@@ -179,13 +180,24 @@ const SearchComponent = () => {
         </form>
       </div>
 
-      <div className=""> {/*for the search results */}
+      <div className="flex-1"> {/*for the search results */}
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">Search Results:</h1>
-        {/* {listings.map(listing => (
-          <ShowListing listing = {listing} key={listing.name}/>
-        ))} */}
-        
+      <div className="p-7 flex flex-wrap w-full">
+
+        {!loading && listings.length===0 && (
+          <p className="text-slate-700 text-xl">No Listings Found!</p>
+        )}
+        {loading && (
+          <p className="text-xl text-slate-700 text-center">
+            Loading....
+          </p>
+        )}
+        {!loading && listings.length>0 && listings.map((listing) => (
+          <ShowListing key={listing._id} listing={listing} />
+        ))}
       </div>
+      </div>
+        
     </div>
   );
 
