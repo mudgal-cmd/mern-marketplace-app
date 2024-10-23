@@ -101,7 +101,7 @@ function Profile(){
     e.preventDefault();
     dispatch(updateUserStart());// ?? why is it showing the query params in the URL - reason being  "specified before disabling the default form submit behavior."
     console.log(updateFormData);
-    await axios.put(`/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
+    await axios.put(`${import.meta.env.VITE_API_URL}/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
       "Content-Type" : "application/json"
     }}).then(res => {
       console.log(res.data.userData);

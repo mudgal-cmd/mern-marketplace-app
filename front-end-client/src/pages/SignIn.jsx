@@ -56,7 +56,7 @@ function SignIn() {
 
 
 
-      await axios.post("/api/auth/signin", JSON.stringify(formData), {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signin`, JSON.stringify(formData), {
         headers: {
           "Content-type": "application/json",
         },

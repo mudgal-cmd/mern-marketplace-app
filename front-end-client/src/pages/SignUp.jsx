@@ -38,7 +38,7 @@ function SignUp(){
     // console.log(formData);
     console.log("Submitted");
   
-    await axios.post("/api/auth/signup", JSON.stringify(formData), {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, JSON.stringify(formData), {
       headers:{
         "Content-type": "application/json"
       }

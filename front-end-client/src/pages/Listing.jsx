@@ -41,7 +41,7 @@ const Listing = () => {
     (async function(){
 
       try{
-        const response = await fetch(`/api/listing/get-listing/${param.listingId}`).then(res => res.json());
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/listing/get-listing/${param.listingId}`).then(res => res.json());
         console.log(response);
         if(response.success === false) {
           setError(true); 

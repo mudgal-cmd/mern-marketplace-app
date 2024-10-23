@@ -5,6 +5,7 @@ import UserRouter from "./routes/user.route.js" //Since we're exporting default/
 import UserSignUpRouter from "./routes/user.signup.js";
 import cookieParser from "cookie-parser";
 import ListingRouter from "./routes/listing.route.js";
+import cors from "cors";
 
 
 dotenv.config(); //loading the env variables
@@ -13,6 +14,11 @@ dotenv.config(); //loading the env variables
 //in order to use the import statement and not the require keyword of common JS, update the package.json file in root, add property "type":module
 
 const app = express();
+
+app.use(cors({
+  origin : ["https://zealous-smoke-0c4212710.5.azurestaticapps.net/"],
+  methods: ["POST", "GET"]
+}));
 
 app.use(express.json()); // to serve and be able to process the data in the body.
 

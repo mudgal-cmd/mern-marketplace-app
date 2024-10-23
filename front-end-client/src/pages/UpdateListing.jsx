@@ -196,7 +196,7 @@ const UpdateListing = () => {
       // console.log(listingFormData);
       // console.log(currentUser);
   
-      await axios.put(`/api/listing/update-listing/${listingFormData._id}`, {...listingFormData, createdBy:currentUser._id}, {headers: {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/listing/update-listing/${listingFormData._id}`, {...listingFormData, createdBy:currentUser._id}, {headers: {
         "Content-Type": "application/json"
       }}).then(res => {
         console.log(res);
