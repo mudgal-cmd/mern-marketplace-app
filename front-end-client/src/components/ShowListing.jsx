@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {MdLocationOn} from "react-icons/md";
+import {MdLocationOn, MdBed, MdBathtub} from "react-icons/md";
 
 //installed LineClamp plugin to allow truncating multiple lines on a web page
 
@@ -17,7 +17,19 @@ export const ShowListing = ({listing}) => {
           </div>
           <p className="text-sm text-gray-600 line-clamp-2">{listing.description}</p>
           <p className="text-slate-500 mt-2 font-semibold">${listing.offer? listing.discountPrice.toLocaleString("en-US") : listing.regularPrice.toLocaleString("en-US")} {listing.listingType === "rent" && <span>/ month</span>} </p>
-          {/* {listing.offer? <p>{listing.discountPrice}</p> : <p>{listing.regularPrice}</p>} */}
+          <div className="flex items-center gap-4 text-xs text-slate-700 font-bold">
+            <div className="flex items-center gap-2">
+
+            <MdBed />
+            {listing.bedrooms>1 ?<span>{listing.bedrooms} beds</span>: <span>{listing.bedrooms} bed</span> }
+            </div>
+
+            <div className="flex items-center gap-2">
+
+            <MdBathtub />
+            {listing.bathrooms>1 ?<span>{listing.bedrooms} baths</span>: <span>{listing.bedrooms} bath</span> }
+            </div>
+          </div>
         </div>  
       </Link>
       {/* <p>{listing.listingType}</p> */}
