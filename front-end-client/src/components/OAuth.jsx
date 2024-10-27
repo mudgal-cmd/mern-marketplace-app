@@ -21,7 +21,7 @@ function OAuth(){
 
       console.log(userData);
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`, { //sending the OAuth user data to this endpoint to validate the user.
+      const res = await fetch(`/api/auth/google`, { //sending the OAuth user data to this endpoint to validate the user.
 
         method: "POST",
 

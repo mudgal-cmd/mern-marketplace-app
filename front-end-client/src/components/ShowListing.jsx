@@ -16,7 +16,7 @@ export const ShowListing = ({listing}) => {
             <p className="truncate text-sm text-gray-600 w-full">{listing.address}</p>
           </div>
           <p className="text-sm text-gray-600 line-clamp-2">{listing.description}</p>
-          <p>${listing.offer? listing.discountPrice : listing.regularPrice}</p>
+          <p className="text-slate-500 mt-2 font-semibold">${listing.offer? listing.discountPrice.toLocaleString("en-US") : listing.regularPrice.toLocaleString("en-US")} {listing.listingType === "rent" && <span>/ month</span>} </p>
           {/* {listing.offer? <p>{listing.discountPrice}</p> : <p>{listing.regularPrice}</p>} */}
         </div>  
       </Link>
