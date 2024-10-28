@@ -34,5 +34,6 @@ export const ShowListing = ({listing}) => {
       </Link>
       {/* <p>{listing.listingType}</p> */}
     </div>
+
   );
 }

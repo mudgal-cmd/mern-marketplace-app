@@ -14,6 +14,8 @@ const SearchComponent = () => {
 
   const [loading, setLoading] = useState(false); // for the loading effect
 
+  const [showMoreListings, setShowMoreListings] = useState(false);
+
   const [searchFilterData, setSearchFilterData] = useState({
     searchTerm: "", //this searchTerm key needs to be same as specified in the header component, so that if a user updates a searchTerm anywhere - either using the search bar or the filters section, the value should remain consistant throughout.
     listingType: "all",
@@ -65,24 +67,6 @@ const SearchComponent = () => {
     const urlSearchQuery = urlParams.toString(); //converted the urlParams object into the query paramter string 
     // console.log(urlSearchQuery);
 
-    // await fetch(`api/listing/get?${urlSearchQuery}`,{method: "GET"}, {headers: {
-    //   "Content-Type": "application/json"
-    // }})
-    // .then(res => {
-    //   if(!res.ok){
-    //     throw new Error("HTTP error!", res.status);
-    //   }
-    //   else{
-    //     return res.json();
-    //   }
-    // })
-    // .then(data => {
-    //   // setListings(data);
-    //   console.log(data);
-    //   setListings(data);
-    // })
-    // .catch(err => console.log(err));
-
     navigate(`/search?${urlSearchQuery}`); // navigating the user to the page
   }
 
@@ -98,6 +82,8 @@ const SearchComponent = () => {
     const offerFromUrl = params.get("offer");
     const sortByFromUrl = params.get("sortBy");
     const sortOrderFromUrl = params.get("sortOrder");
+
+    
 
     if(searchTermFromUrl || listingTypeFromUrl || parkingFromUrl || furnishedFromUrl || offerFromUrl || sortByFromUrl || sortOrderFromUrl){
       setSearchFilterData({
@@ -117,6 +103,11 @@ const SearchComponent = () => {
       const response = await fetch (`/api/listing/get?${searchQuery}`);
       const data = await response.json();
 
+      if(data.length>8){
+        setShowMoreListings(true);
+      }
+      else setShowMoreListings(false); // this condition will ensure that the show more button does not get displayed if the initial data itself is less than 9, i.e., if the initial data/response < 9 then there will not be any more data than this.
+
       console.log(data);
       setListings(data);
       setLoading(false);
@@ -124,6 +115,22 @@ const SearchComponent = () => {
     })(); // to make an API call whenever a filter is changed by the user.
 
   }, [location.search]);
+
+  const handleShowMoreListings = async()=>{
+    const startPage = listings.length; // so this will be dynamic, 1st api call - value would be 9, then 18, so when the Show more button gets clicked, 18 - 27 will be fetched and the new length of the listings array would be 27.
+    const params = new URLSearchParams(location.search);
+    params.set("startPage", startPage);
+    const searchQuery = params.toString();
+    const response = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await response.json();
+    console.log(data);
+    console.log(`start page - ${startPage}`);
+    console.log(searchQuery);
+    if(data.length<9){
+      setShowMoreListings(false);
+    }
+    setListings([...listings, ...data]);
+  }
   // console.log(listings);
   return (
     <div className="flex flex-col md:flex-row">
@@ -193,8 +200,13 @@ const SearchComponent = () => {
           </p>
         )}
         {!loading && listings.length>0 && listings.map((listing) => (
-          <ShowListing key={listing._id} listing={listing} />
-        ))}
+          <ShowListing key={listing._id} listing={listing}/>
+        ))
+        
+        }
+        {showMoreListings && (
+          <button className="bg-green-600 text-white mt-2 rounded-lg text-sm px-5 py-3 hover:text-green-600 hover:bg-white border hover:border-green-600 transition text-center w-full hover:border-2 font-semibold" onClick={handleShowMoreListings}>Show More</button>
+        )}
       </div>
       </div>
         
