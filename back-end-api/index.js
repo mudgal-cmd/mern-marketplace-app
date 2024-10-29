@@ -14,6 +14,7 @@ dotenv.config(); //loading the env variables
 //in order to use the import statement and not the require keyword of common JS, update the package.json file in root, add property "type":module
 
 const app = express();
+app.use(cors({origin:'*'}));
 
 // app.use(cors({
 //   origin : ["https://zealous-smoke-0c4212710.5.azurestaticapps.net/"],
