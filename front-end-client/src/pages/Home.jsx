@@ -1,6 +1,9 @@
 import {Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {SwiperSlide, Swiper} from "swiper/react";
+import "swiper/css/bundle";
+import SwiperCore from "swiper";
 
 function Home(){
 
@@ -66,6 +69,16 @@ function Home(){
 
       {/* swiper */}
 
+      {
+        listingsWithOffer && listingsWithOffer.length>0 && 
+        listingsWithOffer.map((offerListing) => (
+          <SwiperSlide>
+            <div style={{background:`url(${offerListing.imageURLs[0]})center no-repeat`, backgroundSize:"cover"}} className="h-[500px]" key={offerListing._id}>
+
+            </div>
+          </SwiperSlide>
+        ))
+      }
 
       {/* listing results for offer */}
     </div>
