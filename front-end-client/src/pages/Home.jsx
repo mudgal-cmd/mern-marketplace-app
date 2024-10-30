@@ -4,12 +4,15 @@ import axios from "axios";
 import {SwiperSlide, Swiper} from "swiper/react";
 import "swiper/css/bundle";
 import SwiperCore from "swiper";
+import { Navigation } from "swiper/modules";
 
 function Home(){
 
   const [listingsWithOffer, setListingsWithOffer] = useState([]);
   const [listingsForSale, setListingsForSale] = useState([]);
   const [listingsForRent, setListingsForRent] = useState([]);
+
+  SwiperCore.use([Navigation]);
 
   useEffect(()=>{
     (async function fetchListingsWithOffer (){
@@ -68,7 +71,7 @@ function Home(){
 
 
       {/* swiper */}
-
+      <Swiper navigation> {/* need to add navigation to the swiper to allow user to swipe through the images */}
       {
         listingsWithOffer && listingsWithOffer.length>0 && 
         listingsWithOffer.map((offerListing) => (
@@ -79,6 +82,7 @@ function Home(){
           </SwiperSlide>
         ))
       }
+      </Swiper>
 
       {/* listing results for offer */}
     </div>
