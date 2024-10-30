@@ -19,7 +19,11 @@ function Home(){
       console.log(response.data);
       setListingsForSale(response.data);
     })();
-    (async function fet)()
+    (async function fetchListingsForRent(){
+      const response = await axios.get(`/api/listing/get?listingType=rent`);
+      console.log(response.data);
+      setListingsForRent(response.data);
+    })()
   }, []);
 
   return(
