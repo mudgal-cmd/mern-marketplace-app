@@ -10,20 +10,38 @@ function Home(){
 
   useEffect(()=>{
     (async function fetchListingsWithOffer (){
-      const response = await axios.get(`/api/listing/get?offer=true`);
-      // console.log(response.data);
-      setListingsWithOffer(response.data);
+      try{
+
+        const response = await axios.get(`/api/listing/get?offer=true&limit=4`);
+        console.log(response.data);
+        setListingsWithOffer(response.data);
+        fetchListingsForSale(); // we want to call the functions 1 by 1 for the better user ex
+      }
+      catch(err){
+        console.log(err);
+      }
     })();
-    (async function fetchListingsForSale(){
-      const response = await axios.get(`/api/listing/get?listingType=sell`);
-      console.log(response.data);
-      setListingsForSale(response.data);
-    })();
-    (async function fetchListingsForRent(){
-      const response = await axios.get(`/api/listing/get?listingType=rent`);
-      console.log(response.data);
-      setListingsForRent(response.data);
-    })()
+    async function fetchListingsForSale(){
+      try{
+        
+        const response = await axios.get(`/api/listing/get?listingType=sell&limit=4`);
+        console.log(response.data);
+        setListingsForSale(response.data);
+        fetchListingsForRent();
+      }
+      catch(err){console.log(err);}
+    };
+    async function fetchListingsForRent(){
+      try{
+
+        const response = await axios.get(`/api/listing/get?listingType=rent&limit=4`);
+        console.log(response.data);
+        setListingsForRent(response.data);
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
   }, []);
 
   return(
