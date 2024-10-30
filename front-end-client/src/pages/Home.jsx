@@ -5,6 +5,7 @@ import {SwiperSlide, Swiper} from "swiper/react";
 import "swiper/css/bundle";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
+import { ShowListing } from "../components/ShowListing";
 
 function Home(){
 
@@ -85,6 +86,24 @@ function Home(){
       </Swiper>
 
       {/* listing results for offer */}
+      <div className="max-w-6xl p-3 flex flex-col gap-8 my-10 w-full mx-auto">
+        {
+          listingsWithOffer && listingsWithOffer.length>0 && (
+            <div className="">
+              <div className="my-3 mx-5">
+                <h2 className="text-2xl font-semibold text-slate-600">Hot Listings with Offers</h2>
+                <Link to={`/search?offer=true`} className="text-blue-800 text-sm hover:opacity-75 hover:underline">Show More offers</Link>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                {listingsWithOffer.map((offerListing) => (
+                  <ShowListing listing={offerListing} key={offerListing._id} />
+                ))}
+              </div>
+
+            </div>
+              )
+        }
+      </div>
     </div>
   );
 }
