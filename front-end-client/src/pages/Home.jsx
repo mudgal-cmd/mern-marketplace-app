@@ -1,6 +1,27 @@
 import {Link} from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Home(){
+
+  const [listingsWithOffer, setListingsWithOffer] = useState([]);
+  const [listingsForSale, setListingsForSale] = useState([]);
+  const [listingsForRent, setListingsForRent] = useState([]);
+
+  useEffect(()=>{
+    (async function fetchListingsWithOffer (){
+      const response = await axios.get(`/api/listing/get?offer=true`);
+      // console.log(response.data);
+      setListingsWithOffer(response.data);
+    })();
+    (async function fetchListingsForSale(){
+      const response = await axios.get(`/api/listing/get?listingType=sell`);
+      console.log(response.data);
+      setListingsForSale(response.data);
+    })();
+    (async function fet)()
+  }, []);
+
   return(
     <div>
       {/* top */}
