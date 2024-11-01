@@ -61,9 +61,9 @@ function Home(){
           </h1>
         
           <div className="text-gray-400 text-xs sm:text-sm">
-            Urban Utopia is the best place to find your next home
+          Urban Utopia – Find Your Dream, Live Your Reality.
             <br />
-            We have a wide range of properties to chose from
+            The perfect home is just a click away.
           </div>
           <Link to='/search' className=" text-xs sm:text-sm text-blue-700 font-semibold hover:opacity-80">
             Let's start searching...
