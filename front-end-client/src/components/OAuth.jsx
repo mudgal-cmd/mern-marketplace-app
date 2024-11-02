@@ -28,7 +28,7 @@ function OAuth(){
         headers: {
           "Content-Type": "application/json"
         },
-
+        
         body: JSON.stringify({
           name: userData.user.displayName,
           email: userData.user.email,

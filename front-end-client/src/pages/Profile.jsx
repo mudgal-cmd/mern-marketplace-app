@@ -103,7 +103,9 @@ function Profile(){
     console.log(updateFormData);
     await axios.put(`https://mern-marketplace-app-1.onrender.com/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
       "Content-Type" : "application/json"
-    }}).then(res => {
+    },
+    withCredentials:true
+  }).then(res => {
       console.log(res.data.userData);
       dispatch(updateUserSuccess(res.data.userData));
 
