@@ -60,6 +60,9 @@ function SignIn() {
         headers: {
           "Content-type": "application/json",
         },
+        
+        withCredentials: true
+        
       })
       .then((res) => {
         // setLoadingEffect(false);

@@ -16,10 +16,12 @@ dotenv.config(); //loading the env variables
 const app = express();
 app.use(cors({origin:'*'}));
 
-// app.use(cors({
-//   origin : ["https://zealous-smoke-0c4212710.5.azurestaticapps.net/"],
-//   methods: ["POST", "GET"]
-// }));
+app.use(cors({
+  // origin : ["https://zealous-smoke-0c4212710.5.azurestaticapps.net/"],
+  origin : "http://localhost:5001",
+  method: ["GET", "POST", "DELETE", "PUT"],
+  credentials: true
+}));
 
 app.use(express.json()); // to serve and be able to process the data in the body.
 
