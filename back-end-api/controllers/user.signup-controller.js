@@ -50,7 +50,7 @@ export const userSignInController = async (req, res, next) => {
   
     if(isValidPassword){
       const token = jwt.sign({id : user._id}, process.env.JWT_SECRET); //Using JWT token for secure data transmission.
-      res.cookie("access_token", token, {httpOnly: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).json(userInfo);
+      res.cookie("access_token", token, {httpOnly: true, secure:true, sameSite:"None", expires: new Date(Date.now()+24*60*60*1000)}).status(200).json(userInfo);
       //'httpOnly' ensuring that the cookie cannot be accessed by any client-side scripts. 
     }
     else{
@@ -77,7 +77,7 @@ export const oauthUserLoginController = async (req, res, next) => { //controller
 
     const {password, ...userInfo} = findUser._doc;
 
-    res.cookie("access_token", token, {httpOnly: true, secure: true, expires: new Date(Date.now()+24*60*60*1000)}).status(200).send(userInfo);
+    res.cookie("access_token", token, {httpOnly: true, secure: true, sameSite:"None", expires: new Date(Date.now()+24*60*60*1000)}).status(200).send(userInfo);
 
   }// secure will be set to true when the app is running in the production / https
   else{
