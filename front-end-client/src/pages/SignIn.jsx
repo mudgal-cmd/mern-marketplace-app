@@ -66,6 +66,8 @@ function SignIn() {
         // setError(null);
         dispatch(signInSuccess(res.data));
 
+        console.log("LOG IN KAR LIA HAI");
+
         //"signInSuccess(res.data)" inside the dispatch function is the action.
 
         // console.log(res.data); // just the data
