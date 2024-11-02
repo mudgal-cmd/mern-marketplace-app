@@ -8,6 +8,8 @@ export const errorHandler = (statusCode, message) =>{
 
   error.message = message;
 
+  console.log("Custom error:", error);
+
   return error;
 
 }

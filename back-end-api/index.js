@@ -18,7 +18,6 @@ const app = express();
 app.use(cors({
   origin : "https://zealous-smoke-0c4212710.5.azurestaticapps.net",
   // origin : "http://localhost:5001",
-  method: ["GET", "POST", "DELETE", "PUT"],
   credentials: true
 }));
 
@@ -49,7 +48,7 @@ app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
 
   const message = err.message || "Internal Server Error";
-  console.log("error");
+  console.log("Error from index.js",message);
   return res.status(statusCode).json({
     success: false,
     statusCode: statusCode, // after ES6, if the key and value is same, we can just keep 1
