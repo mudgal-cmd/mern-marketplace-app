@@ -21,7 +21,7 @@ function OAuth(){
 
       console.log(userData);
 
-      const res = await fetch(`/api/auth/google`, { //sending the OAuth user data to this endpoint to validate the user.
+      const res = await fetch(`https://mern-marketplace-app-1.onrender.com/api/auth/google`, { //sending the OAuth user data to this endpoint to validate the user.
 
         method: "POST",
 

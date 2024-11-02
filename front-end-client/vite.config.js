@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5001,
     proxy:{
       "/api":{
-        target:"http://localhost:3000/",
+        target:"https://mern-marketplace-app-1.onrender.com",
         secure: false
       }
     }

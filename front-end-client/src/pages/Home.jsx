@@ -19,7 +19,7 @@ function Home(){
     (async function fetchListingsWithOffer (){
       try{
 
-        const response = await axios.get(`/api/listing/get?offer=true&limit=4`);
+        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?offer=true&limit=4`);
         console.log(response.data);
         setListingsWithOffer(response.data);
         fetchListingsForSale(); // we want to call the functions 1 by 1 for the better user ex
@@ -31,7 +31,7 @@ function Home(){
     async function fetchListingsForSale(){
       try{
         
-        const response = await axios.get(`/api/listing/get?listingType=sell&limit=4`);
+        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?listingType=sell&limit=4`);
         console.log(response.data);
         setListingsForSale(response.data);
         fetchListingsForRent();
@@ -41,7 +41,7 @@ function Home(){
     async function fetchListingsForRent(){
       try{
 
-        const response = await axios.get(`/api/listing/get?listingType=rent&limit=4`);
+        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?listingType=rent&limit=4`);
         console.log(response.data);
         setListingsForRent(response.data);
       }
@@ -76,7 +76,7 @@ function Home(){
       {
         listingsWithOffer && listingsWithOffer.length>0 && 
         listingsWithOffer.map((offerListing) => (
-          <SwiperSlide>
+          <SwiperSlide key={offerListing._id}>
             <div style={{background:`url(${offerListing.imageURLs[0]})center no-repeat`, backgroundSize:"cover"}} className="h-[500px]" key={offerListing._id}>
 
             </div>

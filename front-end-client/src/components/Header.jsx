@@ -44,7 +44,7 @@ function Header() {
     navigate(`/search?${queryParams}`);
 
     //handling the empty search term use case at the backend in api
-    // await axios.get(`/api/listing/get?searchTerm=${searchTerm}`, {headers:{"Content-Type":"application/json"}})
+    // await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?searchTerm=${searchTerm}`, {headers:{"Content-Type":"application/json"}})
     // .then(res => console.log(res))
     // .catch(err => console.log(err));
   }

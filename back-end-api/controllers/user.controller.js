@@ -32,9 +32,9 @@ export const updateUserController = async (req, res, next) => {
 
   const {id} = req.user;
 
-  // console.log(req.params.id);
+  console.log(req.params);
 
-  if(id !== req.params.id) return next(errorHandler(401, "Unauthorized")); // if the _id in body and path params do not match, that means the user do not match, hence we'd throw the error and doesn't let the user proceed with the update.
+  if(id !== req.params.id) return next(errorHandler(401, "Unauthorized controller")); // if the _id in body and path params do not match, that means the user do not match, hence we'd throw the error and doesn't let the user proceed with the update.
 
   console.log(req.body);
 

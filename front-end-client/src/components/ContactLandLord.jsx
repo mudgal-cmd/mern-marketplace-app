@@ -13,7 +13,7 @@ const ContactLandLord = ({listing}) => {
     (async function(){
       try{
 
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/get-user/${listing.createdBy}`);
+        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/user/get-user/${listing.createdBy}`);
         console.log(response);
         setLandlordData(response.data);
       }

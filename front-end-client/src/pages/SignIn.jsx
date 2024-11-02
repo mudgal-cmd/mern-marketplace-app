@@ -42,7 +42,7 @@ function SignIn() {
     // fetch("https://fakestoreapi.com/products/1").then(res => res.json()).then(json => console.log(json));
     console.log(formData);
     dispatch(signInStart());
-    // fetch("/api/auth/signin", {
+    // fetch("https://mern-marketplace-app-1.onrender.com/api/auth/signin", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json"
@@ -56,7 +56,7 @@ function SignIn() {
 
 
 
-      await axios.post(`/api/auth/signin`, JSON.stringify(formData), {
+      await axios.post(`https://mern-marketplace-app-1.onrender.com/api/auth/signin`, JSON.stringify(formData), {
         headers: {
           "Content-type": "application/json",
         },
