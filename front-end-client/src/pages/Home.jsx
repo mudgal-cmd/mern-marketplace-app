@@ -125,6 +125,25 @@ function Home(){
         }
       </div>
 
+      <div className="max-w-6xl p-3 flex flex-col gap-8 my-10 w-full mx-auto">
+        {
+          listingsForRent && listingsForRent.length>0 && (
+            <div className="">
+              <div className="my-3 mx-5">
+                <h2 className="text-2xl font-semibold text-slate-600">Hot Listings for rent</h2>
+                <Link to={`/search?offer=true`} className="text-blue-800 text-sm hover:opacity-75 hover:underline">Show More offers</Link>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                {listingsForRent.map((rentListing) => (
+                  <ShowListing listing={rentListing} key={rentListing._id} />
+                ))}
+              </div>
+
+            </div>
+              )
+        }
+      </div>
+
     </div>
   );
 }
