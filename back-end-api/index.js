@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import ListingRouter from "./routes/listing.route.js";
 import cors from "cors";
 
+// encountered a type related error for express, cookie-parser and cors, hence used the command 'npm i -D @types/module-name' to install the required types. This error could be related to Azure devops that was using something that was expecting typescript definitions.
+
 
 dotenv.config(); //loading the env variables
 

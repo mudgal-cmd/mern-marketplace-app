@@ -23,5 +23,9 @@
     "nodemon": "^3.1.0",
     "react-redux": "^9.1.2",
     "redux-persist": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0"
   }
 }
