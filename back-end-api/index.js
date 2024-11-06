@@ -39,7 +39,7 @@ app.use("/api/auth", UserSignUpRouter);
 app.use("/api/listing", ListingRouter);
 const port = process.env.PORT || 8080;
 app.listen(port, ()=>{
-  console.log("Server listening on port: ", port);
+  console.log("Port running is : ", port);
 });
 // updated the port here because container was starting the app on 8080, but we had 3000 earlier
 
