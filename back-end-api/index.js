@@ -37,9 +37,17 @@ app.use("/api/user", UserRouter); //ensuring all the routes/requests matching th
 app.use("/api/auth", UserSignUpRouter);
 
 app.use("/api/listing", ListingRouter);
+
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});// added a health check endpoint to ensure there're no missing env variables.
+
 const port = process.env.PORT || 8080;
+
 app.listen(port, ()=>{
-  console.log("Port running is : ", port);
+  console.log(`Server running at : ${port}`);
+}).on('error', (err) => {
+  console.error('Failed to start the server: ', err);
 });
 // updated the port here because container was starting the app on 8080, but we had 3000 earlier
 
