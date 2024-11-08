@@ -6,8 +6,7 @@ export const verifyUserToken = (req, _, next) => { // function to verify the use
   // console.log("Verify token executed");
   console.log(`Cookies: ${req.cookies}`);
   console.log(req);
-  const {access_token} = req.cookies; //destructuring the cookie to get the current token.
-
+  const {access_token} = req.cookies; //destructuring the cookie to get the current token
   
 
   // console.log(access_token);

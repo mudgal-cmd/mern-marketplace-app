@@ -65,7 +65,6 @@ function Profile(){
     (snapshot) => { // tracking the changes of the image/versions uploaded
         const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100);// computed the file upload percentage progress
 
-
         console.log("Upload is ",progress,"%done");
         setFileUploadPerc(progress);
         // console.log(fileUploadPerc);
@@ -79,6 +78,8 @@ function Profile(){
           setUpdateFormData({...updateFormData, avatar: downloadURL});
 
           // console.log(downloadURL);
+
+          //set the current user's avatar - by modifying the state
           
         } //downloadURL is the result of the getDownloadURL promise function getting resolved.
       );
@@ -138,7 +139,7 @@ function Profile(){
   const handleUserSignOut = () => {
     dispatch(signOutStart());
   
-      axios.post(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/auth/signout/${currentUser._id}`).
+      axios.post(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/auth/signout/${currentUser._id}`,{}, {withCredentials: true}). //note how we specified withCredentials Flag to allow cross-origin requests to flow. and its a 3rd parameter to ensure that the configuration is correct, if we omit '{}' - serving as a placeholder for body, then axios would treat {withCredentials:true} as the body which will lead to unexpected results.
       then(res => {
         console.log(res);
         if(res.data.success === false) return error(res);
