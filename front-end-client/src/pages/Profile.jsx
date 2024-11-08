@@ -101,7 +101,7 @@ function Profile(){
     e.preventDefault();
     dispatch(updateUserStart());// ?? why is it showing the query params in the URL - reason being  "specified before disabling the default form submit behavior."
     console.log(updateFormData);
-    await axios.put(`https://mern-marketplace-app-1.onrender.com/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
+    await axios.put(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/user/updateUser/${currentUser._id}`, JSON.stringify(updateFormData), {headers:{
       "Content-Type" : "application/json"
     },
     withCredentials:true
@@ -120,7 +120,7 @@ function Profile(){
 
     dispatch(deleteUserStart());
     // dispatch(delete)
-    await axios.delete(`https://mern-marketplace-app-1.onrender.com/api/user/deleteUser/${currentUser._id}`).
+    await axios.delete(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/user/deleteUser/${currentUser._id}`).
     
     then(res => {
       console.log(res);
@@ -138,7 +138,7 @@ function Profile(){
   const handleUserSignOut = () => {
     dispatch(signOutStart());
   
-      axios.post(`https://mern-marketplace-app-1.onrender.com/api/auth/signout/${currentUser._id}`).
+      axios.post(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/auth/signout/${currentUser._id}`).
       then(res => {
         console.log(res);
         if(res.data.success === false) return error(res);
@@ -154,7 +154,7 @@ function Profile(){
 
   const handleShowListings = async() => {
     try {
-      await axios.get(`https://mern-marketplace-app-1.onrender.com/api/user/listings/${currentUser._id}`).
+      await axios.get(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/user/listings/${currentUser._id}`).
         then(res => {
           console.log(res.data);
           setUserListings(res.data.listings);
@@ -167,7 +167,7 @@ function Profile(){
 
   const handleDeleteListing = async (listingId) => {
     try {
-      const response = await fetch(`https://mern-marketplace-app-1.onrender.com/api/listing/delete-listing/${listingId}`, {method: 'DELETE', headers:{
+      const response = await fetch(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/delete-listing/${listingId}`, {method: 'DELETE', headers:{
         "Content-Type" : "application/json"
       }});
 

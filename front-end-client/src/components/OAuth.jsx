@@ -21,7 +21,7 @@ function OAuth(){
 
       console.log(userData);
 
-      const res = await fetch(`https://mern-marketplace-app-1.onrender.com/api/auth/google`, { //sending the OAuth user data to this endpoint to validate the user.
+      const res = await fetch(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/auth/google`, { //sending the OAuth user data to this endpoint to validate the user.
 
         method: "POST",
 
@@ -41,7 +41,7 @@ function OAuth(){
       console.log(data);
       dispatch(signInSuccess(data));
 
-      navigate("/about");
+      navigate("/");// directing the user to the homepage when signed in using the OAuth credentials
       
     }
     catch(err) {

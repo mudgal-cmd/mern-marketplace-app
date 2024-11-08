@@ -18,7 +18,7 @@ dotenv.config(); //loading the env variables
 const app = express();
 
 app.use(cors({
-  origin : "https://zealous-smoke-0c4212710.5.azurestaticapps.net",
+  origin : "https://zealous-smoke-0c4212710.5.azurestaticapps.net", // updated the CORS origin to azure URL
   // origin : "http://localhost:5001",
   credentials: true
 })); // enabled cors to allow the frontend to communicate with the backend.

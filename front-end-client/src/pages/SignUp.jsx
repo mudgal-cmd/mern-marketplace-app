@@ -38,7 +38,7 @@ function SignUp(){
     // console.log(formData);
     console.log("Submitted");
   
-    await axios.post(`https://mern-marketplace-app-1.onrender.com/api/auth/signup`, JSON.stringify(formData), {
+    await axios.post(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/auth/signup`, JSON.stringify(formData), {
       headers:{
         "Content-type": "application/json"
       }

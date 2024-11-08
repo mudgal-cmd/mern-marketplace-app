@@ -57,7 +57,7 @@ const UpdateListing = () => {
   useEffect(()=> {
 
     (async function fetchListing(){
-      const response = await fetch(`https://mern-marketplace-app-1.onrender.com/api/listing/get-listing/${param.listingId}`, {method: "GET"}).then(res => res.json());
+      const response = await fetch(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get-listing/${param.listingId}`, {method: "GET"}).then(res => res.json());
 
       // console.log(response);
       // console.log(typeof response);
@@ -196,7 +196,7 @@ const UpdateListing = () => {
       // console.log(listingFormData);
       // console.log(currentUser);
   
-      await axios.put(`https://mern-marketplace-app-1.onrender.com/api/listing/update-listing/${listingFormData._id}`, {...listingFormData, createdBy:currentUser._id}, {headers: {
+      await axios.put(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/update-listing/${listingFormData._id}`, {...listingFormData, createdBy:currentUser._id}, {headers: {
         "Content-Type": "application/json"
       }}).then(res => {
         console.log(res);

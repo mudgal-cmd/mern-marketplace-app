@@ -176,7 +176,7 @@ const CreateListing = () => {
       // console.log(listingFormData);
       // console.log(currentUser);
   
-      await axios.post(`https://mern-marketplace-app-1.onrender.com/api/listing/create-listing/`, {...listingFormData, createdBy:currentUser._id}, {headers: {
+      await axios.post(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/create-listing/`, {...listingFormData, createdBy:currentUser._id}, {headers: {
         "Content-Type": "application/json"
       }}).then(res => {
         console.log(res);

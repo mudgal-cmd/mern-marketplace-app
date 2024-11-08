@@ -41,7 +41,7 @@ const Listing = () => {
     (async function(){
 
       try{
-        const response = await fetch(`https://mern-marketplace-app-1.onrender.com/api/listing/get-listing/${param.listingId}`).then(res => res.json());
+        const response = await fetch(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get-listing/${param.listingId}`).then(res => res.json());
         console.log(response);
         if(response.success === false) {
           setError(true); 

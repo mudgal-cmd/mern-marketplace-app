@@ -100,7 +100,7 @@ const SearchComponent = () => {
     (async function (){
       setLoading(true);
       const searchQuery = params.toString();
-      const response = await fetch (`https://mern-marketplace-app-1.onrender.com/api/listing/get?${searchQuery}`);
+      const response = await fetch (`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get?${searchQuery}`);
       const data = await response.json();
 
       if(data.length>8){
@@ -121,7 +121,7 @@ const SearchComponent = () => {
     const params = new URLSearchParams(location.search);
     params.set("startPage", startPage);
     const searchQuery = params.toString();
-    const response = await fetch(`https://mern-marketplace-app-1.onrender.com/api/listing/get?${searchQuery}`);
+    const response = await fetch(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get?${searchQuery}`);
     const data = await response.json();
     console.log(data);
     console.log(`start page - ${startPage}`);
