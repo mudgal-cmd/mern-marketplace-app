@@ -19,7 +19,7 @@ function Home(){
     (async function fetchListingsWithOffer (){
       try{
 
-        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?offer=true&limit=4`);
+        const response = await axios.get(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get?offer=true&limit=4`);
         console.log(response.data);
         setListingsWithOffer(response.data);
         fetchListingsForSale(); // we want to call the functions 1 by 1 for the better user ex
@@ -31,7 +31,7 @@ function Home(){
     async function fetchListingsForSale(){
       try{
         
-        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?listingType=sell&limit=4`);
+        const response = await axios.get(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get?listingType=sell&limit=4`);
         console.log(response.data);
         setListingsForSale(response.data);
         fetchListingsForRent();
@@ -41,7 +41,7 @@ function Home(){
     async function fetchListingsForRent(){
       try{
 
-        const response = await axios.get(`https://mern-marketplace-app-1.onrender.com/api/listing/get?listingType=rent&limit=4`);
+        const response = await axios.get(`https://urbanutopiabackend-fpf2dqgqfwh7hmen.centralus-01.azurewebsites.net/api/listing/get?listingType=rent&limit=4`);
         console.log(response.data);
         setListingsForRent(response.data);
       }
